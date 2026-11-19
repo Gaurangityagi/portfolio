@@ -30,11 +30,21 @@ h1.title{font-family:var(--serif);font-style:italic;font-weight:400;font-size:cl
 
 /* sticker nav */
 nav.stickers a{text-decoration:none}
-nav.stickers{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.stk{position:relative;transition:transform .25s cubic-bezier(.3,1.6,.5,1);filter:drop-shadow(0 2px 0 rgba(0,0,0,.18))}
-.stk:hover{transform:rotate(-6deg) scale(1.08)}
-.stk.active{transform:rotate(3deg) scale(1.04)}
-.stk.active::after{content:"";position:absolute;left:50%;bottom:-10px;width:6px;height:6px;border-radius:50%;background:var(--ink);transform:translateX(-50%)}
+nav.stickers{display:flex;align-items:flex-start;gap:14px;flex-shrink:0;position:relative;
+  border:1.5px solid var(--ink);border-radius:16px;background:#fffdfa;
+  padding:16px 18px 12px;box-shadow:5px 5px 0 var(--ink)}
+nav.stickers::before{content:"SECTIONS →";position:absolute;top:-10px;left:16px;
+  background:var(--ink);color:#fff;font-size:9px;letter-spacing:1.8px;padding:3px 10px;border-radius:12px}
+.stk{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer}
+.art{position:relative;height:78px;display:grid;place-items:center;
+  transition:transform .25s cubic-bezier(.3,1.6,.5,1);filter:drop-shadow(0 2px 0 rgba(0,0,0,.18))}
+.stk:hover .art{transform:rotate(-6deg) scale(1.08)}
+.stk.active .art{transform:rotate(3deg) scale(1.04)}
+.navcap{font-size:10px;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted);
+  white-space:nowrap;padding:2px 9px;border-radius:20px;border:1.5px solid transparent;transition:.18s}
+.stk:hover .navcap{color:var(--ink);border-color:var(--ink);background:#fff}
+.stk.active .navcap{background:var(--hl);color:var(--ink);font-weight:700;
+  border-color:var(--ink);box-shadow:2px 2px 0 var(--ink)}
 .s-about{width:78px;height:78px;display:grid;place-items:center}
 .s-about svg{position:absolute;inset:0}
 .s-about span{position:relative;font-family:var(--serif);font-size:19px}
@@ -42,7 +52,7 @@ nav.stickers{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .s-side .a{font-family:var(--serif);font-style:italic;font-size:19px;line-height:1;display:block;color:#ffe4dc}
 .s-side .b{font-family:Anton,sans-serif;font-size:18px;line-height:1.05;letter-spacing:.5px;display:block}
 .s-side .c{font-size:13px;letter-spacing:2px;display:block;margin-top:1px}
-.s-work{display:flex;flex-direction:column;align-items:center;gap:3px}
+.s-work{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;height:78px}
 .s-work .tag{background:var(--yellow);border:2px solid var(--ink);font-family:var(--serif);font-style:italic;font-size:13px;padding:0 8px;line-height:1.5;transform:rotate(-2deg)}
 .s-work .pill{background:var(--pink);border:2px solid var(--ink);border-radius:30px;padding:2px 16px;font-family:'Bagel Fat One',sans-serif;font-size:20px;color:#fff;-webkit-text-stroke:1.2px var(--ink);letter-spacing:1px}
 .s-reach{width:78px;height:78px;background:var(--green);border:2px solid var(--ink);border-radius:4px;display:flex;flex-direction:column;justify-content:space-between;padding:5px;overflow:hidden}
@@ -245,21 +255,33 @@ footer{margin-top:70px;font-size:11px;color:var(--muted);display:flex;justify-co
 <div class="wrap">
 <header>
   <div id="head"></div>
-  <nav class="stickers">
-    <a href="#about" class="stk s-about" data-v="about" aria-label="About">
-      <svg viewBox="0 0 100 100"><path id="scallop" fill="#b9c6f5" stroke="#1d1c1a" stroke-width="2"/></svg>
-      <span>About</span>
+  <nav class="stickers" aria-label="Site sections">
+    <a href="#about" class="stk" data-v="about" aria-label="About">
+      <span class="art s-about">
+        <svg viewBox="0 0 100 100"><path id="scallop" fill="#b9c6f5" stroke="#1d1c1a" stroke-width="2"/></svg>
+        <span>About</span>
+      </span>
+      <span class="navcap">About</span>
     </a>
-    <a href="#work" class="stk s-work" data-v="work" aria-label="Projects">
-      <span class="tag">Asked ✶ Answered</span>
-      <span class="pill">WORK</span>
+    <a href="#work" class="stk" data-v="work" aria-label="Projects">
+      <span class="art s-work">
+        <span class="tag">Asked ✶ Answered</span>
+        <span class="pill">WORK</span>
+      </span>
+      <span class="navcap">Projects</span>
     </a>
-    <a href="#side-quests" class="stk s-side" data-v="side-quests" aria-label="Side quests">
-      <span class="a">Side</span><span class="b">QUESTS</span><span class="c">★★★</span>
+    <a href="#side-quests" class="stk" data-v="side-quests" aria-label="Side quests">
+      <span class="art s-side">
+        <span class="a">Side</span><span class="b">QUESTS</span><span class="c">★★★</span>
+      </span>
+      <span class="navcap">Side Quests</span>
     </a>
-    <a href="#contact" class="stk s-reach" data-v="contact" aria-label="Contact me">
-      <div class="cam"><svg width="34" height="24" viewBox="0 0 34 24"><rect x="1" y="5" width="32" height="18" rx="3" fill="#f2f1ef"/><rect x="10" y="1" width="10" height="5" rx="1" fill="#f2f1ef"/><circle cx="17" cy="14" r="6.5" fill="#1d1c1a"/><circle cx="17" cy="14" r="3.5" fill="#8fe0a6"/><circle cx="28" cy="9" r="1.5" fill="#e8443a"/></svg></div>
-      <span>Contact</span>
+    <a href="#contact" class="stk" data-v="contact" aria-label="Contact me">
+      <span class="art s-reach">
+        <span class="cam"><svg width="34" height="24" viewBox="0 0 34 24"><rect x="1" y="5" width="32" height="18" rx="3" fill="#f2f1ef"/><rect x="10" y="1" width="10" height="5" rx="1" fill="#f2f1ef"/><circle cx="17" cy="14" r="6.5" fill="#1d1c1a"/><circle cx="17" cy="14" r="3.5" fill="#8fe0a6"/><circle cx="28" cy="9" r="1.5" fill="#e8443a"/></svg></span>
+        <span>Contact</span>
+      </span>
+      <span class="navcap">Contact</span>
     </a>
   </nav>
 </header>
@@ -445,7 +467,7 @@ const ME={
   name:'Gaurangi Tyagi',
   tagline:'I answer product and business questions with <mark>SQL, Python and Power BI</mark> — starting from the question, not the dataset.',
   email:'gaurangityagi@gmail.com',
-  phone:'+91-7055269503',                           // set to '' to hide this row
+  phone:'',                                       // set to '' to hide this row
   linkedin:'https://linkedin.com/in/gaurangityagi',
   github:'https://github.com/Gaurangityagi',
   resume:'Gaurangi-Tyagi-Resume.pdf',               // file sits next to index.html — opens in the built-in viewer
@@ -604,13 +626,13 @@ const PROJECTS=[
   links:[['Live app','https://quickcommercedeliveryinsights.streamlit.app/'],
          ['GitHub','https://github.com/Gaurangityagi/Quick_commerce_delivery_insights']]},
 
- {id:'earnings',title:'Earnings Surprise Event Study',kind:'Hypothesis testing · NSE',cat:['stats','sql'],year:'Dec 2025',vis:'earnings',
+ {id:'earnings',title:'Earnings Surprise Event Study',kind:'Hypothesis testing · NSE',cat:['stats','sql'],year:'Dec 2025',vis:'earningsImg',
   blurb:'Do NSE stocks that beat EPS estimates by 10%+ actually outperform afterwards? An event study across 180+ events says yes — and the misses get punished harder.',
   points:['Measured 30-day abnormal returns against the Nifty 500 benchmark.',
           'Beats: +2.1% abnormal return (p < 0.05). Misses: -2.76% (p = 0.01).',
           'Built the whole pipeline — pull, align event windows, test, chart — in Python.'],
   stack:['Python','Pandas','SciPy','yfinance','Streamlit'],
-  links:[['GitHub','https://github.com/Gaurangityagi/stock-earning-surprise-tracker']]}
+  links:[['Live demo','https://stock-earning-surprise-tracker.streamlit.app/'],['GitHub','https://github.com/Gaurangityagi/stock-earning-surprise-tracker']]}
 
  /* ↓ add new projects here — copy any block above and change the fields.
     Spare illustrations ready to use: vis:'scatter' or vis:'dashboards', or vis:null. */
@@ -708,6 +730,7 @@ const SIDE={
    Plain inline SVG. Safe to leave alone, or recolour with the palette at the top.
 ------------------------------------------------------------------------ */
 const V={
+earningsImg:`<div class="v"><img src="earnings-thumb.png" alt="Earnings Surprise Tracker" style="width:100%;height:100%;object-fit:cover"></div>`,
 swiggyImg:`<div class="v"><img src="swiggy-thumb.png" alt="Dark Kitchen Finder dashboard" style="width:100%;height:100%;object-fit:cover"></div>`,
 askdata:`<div class="v" style="background:#101a14"><svg viewBox="0 0 320 220" font-family="JetBrains Mono" font-size="7.5"><text x="26" y="26" fill="#8fe0a6">sales_2026.csv  ·  18,402 rows</text><rect x="26" y="40" width="164" height="11" rx="1" fill="#2b5c3f"/><rect x="26" y="58" width="120" height="9" rx="1" fill="#1e3a2a" opacity=".85"/><rect x="150" y="58" width="40" height="9" rx="1" fill="#1e3a2a" opacity=".55"/><rect x="26" y="71" width="120" height="9" rx="1" fill="#1e3a2a" opacity=".85"/><rect x="150" y="71" width="40" height="9" rx="1" fill="#1e3a2a" opacity=".55"/><rect x="26" y="84" width="120" height="9" rx="1" fill="#8fe0a6" opacity="1"/><rect x="150" y="84" width="40" height="9" rx="1" fill="#8fe0a6" opacity="1"/><rect x="26" y="97" width="120" height="9" rx="1" fill="#1e3a2a" opacity=".85"/><rect x="150" y="97" width="40" height="9" rx="1" fill="#1e3a2a" opacity=".55"/><rect x="26" y="110" width="120" height="9" rx="1" fill="#1e3a2a" opacity=".85"/><rect x="150" y="110" width="40" height="9" rx="1" fill="#1e3a2a" opacity=".55"/><rect x="26" y="123" width="120" height="9" rx="1" fill="#8fe0a6" opacity="1"/><rect x="150" y="123" width="40" height="9" rx="1" fill="#8fe0a6" opacity="1"/><rect x="26" y="136" width="120" height="9" rx="1" fill="#8fe0a6" opacity="1"/><rect x="150" y="136" width="40" height="9" rx="1" fill="#8fe0a6" opacity="1"/><rect x="26" y="149" width="120" height="9" rx="1" fill="#1e3a2a" opacity=".85"/><rect x="150" y="149" width="40" height="9" rx="1" fill="#1e3a2a" opacity=".55"/><rect x="26" y="162" width="120" height="9" rx="1" fill="#1e3a2a" opacity=".85"/><rect x="150" y="162" width="40" height="9" rx="1" fill="#1e3a2a" opacity=".55"/><g stroke="#8fe0a6" stroke-width="1.2" fill="none"><path d="M196 110 h22 M212 104 l6 6 l-6 6"/></g><rect x="224" y="60" width="70" height="100" rx="3" fill="#16281e" stroke="#2b5c3f" stroke-width="1"/><text x="232" y="78" fill="#5f7794">retrieved</text><text x="232" y="92" fill="#8fe0a6">3 rows</text><text x="232" y="116" fill="#5f7794">answer</text><rect x="232" y="124" width="54" height="4" rx="2" fill="#f6dc6b"/><rect x="232" y="132" width="44" height="4" rx="2" fill="#f6dc6b" opacity=".7"/><rect x="232" y="140" width="50" height="4" rx="2" fill="#f6dc6b" opacity=".45"/><text x="26" y="196" fill="#5f7794">&gt; which region lost the most revenue in Q3?</text><line x1="26" y1="204" x2="294" y2="204" stroke="#1e3a2a"/></svg></div>`,
 trip:`<div class="v" style="background:#1a1426"><svg viewBox="0 0 320 220" font-family="JetBrains Mono" font-size="7.5"><text x="26" y="24" fill="#c9a7e8">two travellers · one itinerary</text><circle cx="124" cy="112" r="56" fill="#f59fc9" opacity=".34"/><circle cx="186" cy="112" r="56" fill="#b9c6f5" opacity=".34"/><text x="54" y="92" fill="#f59fc9">museums</text><text x="48" y="110" fill="#f59fc9">slow mornings</text><text x="62" y="128" fill="#f59fc9">cafes</text><text x="214" y="92" fill="#b9c6f5">hikes</text><text x="210" y="110" fill="#b9c6f5">street food</text><text x="210" y="128" fill="#b9c6f5">early starts</text><text x="140" y="106" fill="#fff">old</text><text x="134" y="120" fill="#fff">towns</text><g stroke="#f6dc6b" stroke-width="1.5" fill="none" stroke-dasharray="4 3"><path d="M40 192 C100 170 150 206 200 184 S270 170 288 188"/></g><g fill="#f6dc6b" stroke="none"><circle cx="40" cy="192" r="3.5"/><circle cx="160" cy="192" r="3.5"/><circle cx="288" cy="188" r="3.5"/></g><text x="26" y="212" fill="#6f6280">day 1 → day 2 → day 3</text></svg></div>`,
