@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gaurangi Tyagi — Data Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Bagel+Fat+One&family=Anton&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f2f1ef; --ink:#1d1c1a; --muted:#6b6862; --line:#cfccc6;
+  --hl:#fbeea0; --red:#e8443a; --pink:#f59fc9; --yellow:#f6dc6b; --green:#8fe0a6; --peri:#b9c6f5; --plum:#2a1438;
+  --serif:'Instrument Serif',Georgia,serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--mono);font-size:13px;line-height:1.6}
+a{color:inherit}
+mark{background:var(--hl);color:inherit;padding:0 2px}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+/* pin dots */
+#dots{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+#dots i{position:absolute;width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff,#d9d6d1 60%,#c7c3bd);box-shadow:0 1px 1px rgba(0,0,0,.08);transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:36px 64px 80px}
+header{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;min-height:110px}
+h1.title{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(44px,6.4vw,78px);line-height:.95;letter-spacing:-1px}
+.sub{margin-top:14px;max-width:460px;color:#3a3833}
+
+/* sticker nav */
+nav.stickers a{text-decoration:none}
+nav.stickers{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.stk{position:relative;transition:transform .25s cubic-bezier(.3,1.6,.5,1);filter:drop-shadow(0 2px 0 rgba(0,0,0,.18))}
+.stk:hover{transform:rotate(-6deg) scale(1.08)}
+.stk.active{transform:rotate(3deg) scale(1.04)}
+.stk.active::after{content:"";position:absolute;left:50%;bottom:-10px;width:6px;height:6px;border-radius:50%;background:var(--ink);transform:translateX(-50%)}
+.s-about{width:78px;height:78px;display:grid;place-items:center}
+.s-about svg{position:absolute;inset:0}
+.s-about span{position:relative;font-family:var(--serif);font-size:19px}
+.s-side{width:78px;height:78px;background:var(--red);color:#fff;padding:7px 6px;text-align:center;outline:4px dotted var(--bg);outline-offset:-2px}
+.s-side .a{font-family:var(--serif);font-style:italic;font-size:19px;line-height:1;display:block;color:#ffe4dc}
+.s-side .b{font-family:Anton,sans-serif;font-size:18px;line-height:1.05;letter-spacing:.5px;display:block}
+.s-side .c{font-size:13px;letter-spacing:2px;display:block;margin-top:1px}
+.s-work{display:flex;flex-direction:column;align-items:center;gap:3px}
+.s-work .tag{background:var(--yellow);border:2px solid var(--ink);font-family:var(--serif);font-style:italic;font-size:13px;padding:0 8px;line-height:1.5;transform:rotate(-2deg)}
+.s-work .pill{background:var(--pink);border:2px solid var(--ink);border-radius:30px;padding:2px 16px;font-family:'Bagel Fat One',sans-serif;font-size:20px;color:#fff;-webkit-text-stroke:1.2px var(--ink);letter-spacing:1px}
+.s-reach{width:78px;height:78px;background:var(--green);border:2px solid var(--ink);border-radius:4px;display:flex;flex-direction:column;justify-content:space-between;padding:5px;overflow:hidden}
+.s-reach .cam{height:40px;background:var(--ink);border-radius:2px;display:grid;place-items:center}
+.s-reach span{font-family:var(--serif);font-size:14px;line-height:1;color:#0f3d1e;white-space:nowrap}
+
+/* social rail */
+.rail{position:fixed;right:max(18px,calc(50% - 600px));top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:6px;z-index:5}
+.rail a{width:24px;height:24px;border-radius:5px;background:var(--ink);display:grid;place-items:center;transition:transform .2s}
+.rail a:hover{transform:scale(1.15) rotate(-8deg)}
+.rail svg{width:13px;height:13px;fill:#fff}
+
+.view{display:none;animation:in .45s cubic-bezier(.2,.7,.2,1)}
+.view.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;margin-top:8px}
+.collage{position:relative;height:300px}
+.collage .back{position:absolute;left:40px;top:0;width:340px;height:232px;background:var(--plum);padding:20px;box-shadow:0 6px 20px rgba(0,0,0,.12)}
+.term{background:#140a1c;height:100%;border-radius:3px;padding:12px 14px;font-size:10.5px;color:#c9b7e0;line-height:1.62;overflow:hidden}
+.term .k{color:#f59fc9}.term .s{color:var(--green)}.term .c{color:#7a6890}.term .n{color:var(--yellow)}
+.polaroid{position:absolute;left:0;top:96px;width:150px;background:#fff;padding:8px 8px 26px;transform:rotate(-5deg);box-shadow:0 8px 22px rgba(0,0,0,.18);transition:transform .3s}
+.polaroid:hover{transform:rotate(-1deg) scale(1.03)}
+.polaroid .ph{height:150px;background:repeating-linear-gradient(45deg,#e7e3dc 0 6px,#efece6 6px 12px);display:grid;place-items:center;color:#8f8a80;font-size:10px;text-align:center;overflow:hidden}
+.polaroid .ph img{width:100%;height:100%;object-fit:cover}
+.polaroid em{position:absolute;bottom:6px;left:0;right:0;text-align:center;font-family:var(--serif);font-size:15px}
+.label-tape{display:inline-block;background:#e9a6a0;color:#6b1f1a;font-weight:700;letter-spacing:1px;font-size:16px;padding:4px 12px;transform:rotate(-2deg);margin:18px 0 14px;box-shadow:0 2px 0 rgba(0,0,0,.1)}
+.bio p{margin-bottom:12px;max-width:440px}
+.right-col{display:flex;flex-direction:column;gap:26px;padding-bottom:6px}
+.kicker{font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:10px}
+.grp{margin-bottom:12px}
+.grp small{display:block;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--ink);border-radius:20px;padding:1px 10px;font-size:11px;background:#fff}
+.chip.dim{border-color:var(--line);color:var(--muted);background:transparent}
+.exp .item{border-left:2px solid var(--ink);padding-left:12px;margin-bottom:16px}
+.exp .item b{font-size:12.5px}
+.exp .item .when{font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted)}
+.exp .item ul{list-style:none;margin-top:5px}
+.exp .item li{padding-left:14px;position:relative;color:#3a3833}
+.exp .item li::before{content:"→";position:absolute;left:0}
+.certs .c-row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dotted var(--line);padding:7px 0}
+.certs .c-row:last-child{border-bottom:0}
+.certs .c-row span{color:var(--muted);font-size:10.5px;white-space:nowrap;letter-spacing:.5px;text-transform:uppercase}
+.certs a{text-decoration:none;border-bottom:1px solid var(--ink)}
+.certs a:hover b{background:var(--hl)}
+.edu{background:#fff;border:1.5px solid var(--ink);padding:10px 14px;max-width:440px;box-shadow:3px 3px 0 var(--ink);margin-top:4px}
+.edu small{display:block;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+
+/* SIDE QUESTS */
+.scene-wrap{position:relative;margin-top:10px}
+.scene{width:100%;max-width:820px;display:block;margin:0 auto;overflow:visible}
+.hot{cursor:pointer;transition:transform .25s cubic-bezier(.3,1.6,.5,1);transform-box:fill-box;transform-origin:center bottom}
+.hot:hover{transform:translateY(-4px) scale(1.04)}
+.tip{position:absolute;pointer-events:none;background:#fff;border:1.5px solid var(--ink);border-radius:20px;padding:3px 12px;font-size:11px;white-space:nowrap;opacity:0;transform:translate(-50%,-6px);transition:opacity .15s,transform .15s;z-index:3}
+.tip.show{opacity:1;transform:translate(-50%,-14px)}
+.zz text{font-family:var(--mono);font-size:13px;fill:var(--ink);animation:zz 3s infinite}
+.zz text:nth-child(2){animation-delay:1s}.zz text:nth-child(3){animation-delay:2s}
+@keyframes zz{0%{opacity:0;transform:translate(0,0)}30%{opacity:1}100%{opacity:0;transform:translate(10px,-22px)}}
+.cat-body{animation:breathe 3.2s ease-in-out infinite;transform-box:fill-box;transform-origin:center bottom}
+@keyframes breathe{50%{transform:scaleY(1.05)}}
+.bar-grow{transform-box:fill-box;transform-origin:center bottom;animation:grow 3.6s ease-in-out infinite}
+.bar-grow.d1{animation-delay:.3s}.bar-grow.d2{animation-delay:.6s}
+@keyframes grow{50%{transform:scaleY(.72)}}
+
+/* WORK */
+.cta{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;font-size:11px;letter-spacing:1px;padding:6px 12px;margin-top:14px;border-radius:2px;transition:transform .2s;text-decoration:none}
+.cta:hover{transform:translateY(-2px)}
+.bar{display:flex;justify-content:space-between;align-items:center;margin:44px 0 14px;font-size:11px;letter-spacing:.5px;gap:16px;flex-wrap:wrap}
+.filters button{color:#b0aca5;text-transform:uppercase;font-size:11px}
+.filters button.on{color:var(--ink)}
+.filters .sep{color:#c9c5be;margin:0 6px}
+.toggle{display:flex;align-items:center;gap:8px;text-transform:uppercase;color:#b0aca5}
+.toggle .on{color:var(--ink)}
+.sw{width:30px;height:16px;border-radius:10px;background:#fff;border:1.5px solid var(--ink);position:relative}
+.sw::after{content:"";position:absolute;top:1px;left:1px;width:11px;height:11px;border-radius:50%;background:var(--ink);transition:left .25s}
+.sw.cs{background:var(--ink)}.sw.cs::after{left:15px;background:#fff}
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{position:relative;aspect-ratio:16/11;overflow:hidden;cursor:pointer;background:#111}
+.card .vis{position:absolute;inset:0;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.card:hover .vis{transform:scale(1.035)}
+.card .cap{position:absolute;left:12px;bottom:12px;background:var(--hl);border:1.5px solid var(--ink);border-radius:20px;padding:3px 14px;font-size:12px;font-weight:700;letter-spacing:.2px;box-shadow:2px 2px 0 var(--ink);transition:.2s}
+.card:hover .cap{background:#fff;transform:translateY(-3px)}
+.card .yr{position:absolute;right:12px;top:12px;background:var(--ink);color:#fff;border-radius:20px;padding:2px 10px;font-size:10px;letter-spacing:.5px}
+.cases .row{display:grid;grid-template-columns:200px 1fr 150px;gap:24px;align-items:stretch;border-top:1px solid var(--ink);padding:16px 0 24px;cursor:pointer}
+.cases .num{font-size:12px;color:var(--muted)}
+.cases h3{font-family:var(--serif);font-style:italic;font-weight:400;font-size:38px;line-height:1.02;margin:22px 0 10px}
+.cases .kind{font-size:12px}
+.cases .thumb{position:relative;aspect-ratio:16/9;max-width:340px;overflow:hidden;background:#111}
+.cases .go{display:flex;align-items:flex-end;justify-content:flex-end;gap:10px;font-size:12px}
+.cases .go .ln{flex:1;height:1px;background:var(--ink);margin-bottom:8px;max-width:60px;transition:max-width .3s}
+.cases .row:hover .ln{max-width:90px}
+.cases .go .circ{width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;opacity:0;transform:scale(.6);transition:.25s;margin-bottom:-6px}
+.cases .row:hover .circ{opacity:1;transform:none}
+
+/* project visuals (generic) */
+.v{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.v svg{width:100%;height:100%}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(20,18,16,.82);z-index:20;display:none;align-items:center;justify-content:center;padding:28px}
+.modal.on{display:flex;animation:fade .2s}
+@keyframes fade{from{opacity:0}}
+.mbox{background:var(--bg);width:min(980px,100%);max-height:92vh;overflow:auto;display:grid;grid-template-columns:1.25fr 1fr;position:relative}
+.mvis{position:relative;min-height:380px;background:#111}
+.mtext{padding:28px 28px 30px}
+.mtext h2{font-family:var(--serif);font-style:italic;font-weight:400;font-size:38px;line-height:1.05;margin:6px 0 10px}
+.meta{font-size:11px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
+.mtext ul{list-style:none;margin:14px 0}
+.mtext li{padding-left:16px;position:relative;margin-bottom:6px}
+.mtext li::before{content:"→";position:absolute;left:0}
+.mlinks{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.mlinks a{border:1.5px solid var(--ink);padding:3px 10px;font-size:11px;text-decoration:none;background:#fff}
+.mlinks a:hover{background:var(--ink);color:#fff}
+.x{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:50%;background:#fff;border:1.5px solid var(--ink);z-index:2;font-size:15px}
+.gbox{background:var(--bg);width:min(1000px,100%);max-height:92vh;overflow:auto;position:relative;border:1.5px solid var(--ink);box-shadow:8px 8px 0 rgba(0,0,0,.35)}
+.ghead{padding:30px 30px 18px;border-bottom:1.5px solid var(--ink);background:var(--peri)}
+.ghead h2{font-family:var(--serif);font-style:italic;font-weight:400;font-size:40px;line-height:1.05;margin:6px 0 10px}
+.ghead p{max-width:64ch;font-size:14px}
+.gbody{padding:4px 30px 30px}
+.gcard{display:grid;grid-template-columns:230px 1fr;gap:22px;padding:22px 0;border-bottom:1px solid var(--line);cursor:pointer;align-items:start}
+.gcard:last-child{border-bottom:0}
+.gthumb{position:relative;aspect-ratio:16/11;overflow:hidden;background:#111;border:1.5px solid var(--ink)}
+.gthumb .vis{position:absolute;inset:0;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.gcard:hover .gthumb .vis{transform:scale(1.04)}
+.gcard h3{font-family:var(--serif);font-style:italic;font-weight:400;font-size:27px;line-height:1.08;margin:2px 0 4px}
+.gcard:hover h3{background:var(--hl);box-shadow:0 0 0 4px var(--hl)}
+.gcard .gk{font-size:11px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
+.gcard p{font-size:13.5px;margin:8px 0 0}
+.gcard ul{list-style:none;margin:10px 0 0}
+.gcard li{padding-left:16px;position:relative;margin-bottom:5px;font-size:13px}
+.gcard li::before{content:"→";position:absolute;left:0}
+.gcard .gmore{font-size:11.5px;margin-top:10px;border-bottom:1.5px solid var(--ink);display:inline-block}
+@media(max-width:760px){.gcard{grid-template-columns:1fr}.ghead h2{font-size:30px}}
+.navarr{position:fixed;top:50%;width:38px;height:38px;border-radius:50%;background:#111;color:#fff;border:1px solid #444;z-index:21;display:none}
+
+/* resume viewer */
+.pdfm{position:fixed;inset:0;background:rgba(20,18,16,.86);z-index:40;display:none;align-items:center;justify-content:center;padding:24px}
+.pdfm.on{display:flex;animation:fade .2s}
+.pdfbox{background:var(--bg);width:min(900px,100%);height:min(94vh,100%);display:flex;flex-direction:column;border:1.5px solid var(--ink);box-shadow:8px 8px 0 rgba(0,0,0,.35)}
+.pb-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px;border-bottom:1.5px solid var(--ink);background:var(--green)}
+.pb-top b{font-family:var(--serif);font-style:italic;font-weight:400;font-size:24px}
+.pb-act{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pb-act a{border:1.5px solid var(--ink);padding:3px 10px;font-size:11px;text-decoration:none;background:#fff}
+.pb-act a:hover{background:var(--ink);color:#fff}
+.pdfbox iframe{flex:1;width:100%;border:0;background:#fff}
+.pb-note{font-size:10.5px;color:var(--muted);padding:6px 14px;border-top:1px solid var(--line)}
+.modal.on ~ .navarr.show{display:block}
+#prev{left:14px}#next{right:14px}
+
+/* REACH OUT */
+.reach{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:30px;align-items:start}
+.ticket{background:#fff;border:1.5px solid var(--ink);box-shadow:6px 6px 0 var(--ink);padding:0}
+.ticket .top{background:var(--green);border-bottom:1.5px dashed var(--ink);padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+.ticket .top b{font-family:var(--serif);font-style:italic;font-weight:400;font-size:28px}
+.ticket .row{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;border-bottom:1px solid #e6e3dd;gap:12px}
+.ticket .row:last-child{border-bottom:0}
+.ticket .row small{color:var(--muted);display:block;font-size:10px;letter-spacing:1px;text-transform:uppercase}
+.ticket .row a.v2{text-decoration:none;border-bottom:1px solid var(--ink)}
+.copy{border:1.5px solid var(--ink);padding:2px 9px;font-size:11px;background:var(--bg)}
+.copy:hover{background:var(--ink);color:#fff}
+.status{display:flex;gap:8px;align-items:center;margin-bottom:18px}
+.dot{width:9px;height:9px;border-radius:50%;background:#2fbf5b;box-shadow:0 0 0 0 rgba(47,191,91,.6);animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(47,191,91,0)}100%{box-shadow:0 0 0 0 rgba(47,191,91,0)}}
+.looking p{margin-bottom:12px;max-width:440px}
+.roles{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.roles span{font-family:'Bagel Fat One';font-size:15px;padding:3px 12px;border:2px solid var(--ink);border-radius:30px}
+.roles span:nth-child(1){background:var(--pink);transform:rotate(-3deg)}
+.roles span:nth-child(2){background:var(--yellow);transform:rotate(2deg)}
+.roles span:nth-child(3){background:var(--peri);transform:rotate(-1deg)}
+.roles span:nth-child(4){background:var(--green);transform:rotate(2deg)}
+.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:6px 14px;font-size:12px;opacity:0;transition:.25s;z-index:30}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+footer{margin-top:70px;font-size:11px;color:var(--muted);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media (max-width:860px){
+  .wrap{padding:22px 20px 70px}
+  header{flex-direction:column-reverse}
+  nav.stickers{align-self:center;transform:scale(.9)}
+  .about-grid,.reach{grid-template-columns:1fr;gap:28px}
+  .collage{height:260px}.collage .back{width:min(340px,80vw);left:30px}
+  .gallery{grid-template-columns:1fr}
+  .cases .row{grid-template-columns:1fr}
+  .cases h3{margin:8px 0}
+  .mbox{grid-template-columns:1fr}.mvis{min-height:240px}
+  .rail{top:auto;bottom:16px;transform:none;flex-direction:row;right:16px}
+}
+</style>
+</head>
+<body>
+<div id="dots"></div>
+
+<div class="rail">
+  <a id="lnk-gh" href="#" title="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg></a>
+  <a id="lnk-li" href="#" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.1c.5-1 1.8-2 3.8-2 4 0 4.8 2.6 4.8 6V21h-4v-5.2c0-1.2 0-2.8-1.7-2.8s-2 1.3-2 2.7V21h-4z"/></svg></a>
+  <a href="#contact" title="Email"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3zm2 2v.5l7 4.5 7-4.5V7zm14 2.8-7 4.5-7-4.5V17h14z"/></svg></a>
+</div>
+
+<div class="wrap">
+<header>
+  <div id="head"></div>
+  <nav class="stickers">
+    <a href="#about" class="stk s-about" data-v="about" aria-label="About">
+      <svg viewBox="0 0 100 100"><path id="scallop" fill="#b9c6f5" stroke="#1d1c1a" stroke-width="2"/></svg>
+      <span>About</span>
+    </a>
+    <a href="#work" class="stk s-work" data-v="work" aria-label="Projects">
+      <span class="tag">Asked ✶ Answered</span>
+      <span class="pill">WORK</span>
+    </a>
+    <a href="#side-quests" class="stk s-side" data-v="side-quests" aria-label="Side quests">
+      <span class="a">Side</span><span class="b">QUESTS</span><span class="c">★★★</span>
+    </a>
+    <a href="#contact" class="stk s-reach" data-v="contact" aria-label="Contact me">
+      <div class="cam"><svg width="34" height="24" viewBox="0 0 34 24"><rect x="1" y="5" width="32" height="18" rx="3" fill="#f2f1ef"/><rect x="10" y="1" width="10" height="5" rx="1" fill="#f2f1ef"/><circle cx="17" cy="14" r="6.5" fill="#1d1c1a"/><circle cx="17" cy="14" r="3.5" fill="#8fe0a6"/><circle cx="28" cy="9" r="1.5" fill="#e8443a"/></svg></div>
+      <span>Contact</span>
+    </a>
+  </nav>
+</header>
+
+<!-- ABOUT -->
+<section class="view" id="v-about">
+  <div class="about-grid">
+    <div>
+      <div class="collage">
+        <div class="back"><div class="term" id="term"></div></div>
+        <div class="polaroid"><div class="ph" id="photo">your photo<br>goes here</div><em id="photoCap">hi, it's me</em></div>
+      </div>
+      <div class="label-tape">ABOUT ME</div>
+      <div class="bio" id="bio"></div>
+      <div class="edu" id="edu"></div>
+    </div>
+    <div class="right-col" id="aboutRight"></div>
+  </div>
+</section>
+
+<!-- SIDE QUESTS -->
+<section class="view" id="v-side-quests">
+  <div class="scene-wrap" id="sceneWrap">
+    <div class="tip" id="tip"></div>
+    <svg class="scene" viewBox="0 0 900 440" id="scene">
+      <defs>
+        <pattern id="dotsY" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#f6dc6b"/><circle cx="3.5" cy="3.5" r="1.3" fill="#d9b93a"/></pattern>
+        <pattern id="dotsP" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#f59fc9"/><circle cx="3.5" cy="3.5" r="1.3" fill="#d873a6"/></pattern>
+        <pattern id="wood" width="40" height="10" patternUnits="userSpaceOnUse"><rect width="40" height="10" fill="#e3a25c"/><path d="M0 5 Q10 2 20 5 T40 5" stroke="#c8843f" stroke-width="1" fill="none"/></pattern>
+        <pattern id="check" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#fbe4dc"/><rect width="6" height="6" fill="#f3b8aa"/><rect x="6" y="6" width="6" height="6" fill="#f3b8aa"/></pattern>
+      </defs>
+      <g stroke="#1d1c1a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+        <!-- rug -->
+        <ellipse cx="460" cy="412" rx="380" ry="22" fill="url(#check)"/>
+
+        <!-- plant -> SQL practice -->
+        <g class="hot" data-id="sqlpractice" data-label="SQL practice ↗">
+          <path d="M92 410 L82 330 L148 330 L138 410 Z" fill="#e8443a"/>
+          <rect x="76" y="322" width="78" height="14" rx="3" fill="#f59fc9"/>
+          <path d="M115 322 C90 280 60 260 52 220 C80 230 105 260 115 322Z" fill="#8fe0a6"/>
+          <path d="M115 322 C125 270 150 240 178 225 C175 262 150 295 115 322Z" fill="#5fc47e"/>
+          <path d="M115 322 C108 260 112 210 128 170 C140 220 132 280 115 322Z" fill="#8fe0a6"/>
+          <circle cx="128" cy="170" r="9" fill="#f6dc6b"/>
+          <path d="M120 162 l-6 -8 M136 162 l6 -8 M128 158 v-10" stroke-width="2.5"/>
+        </g>
+
+        <!-- desk -->
+        <rect x="190" y="268" width="520" height="22" rx="4" fill="url(#wood)"/>
+        <path d="M210 290 L218 408 M690 290 L682 408" stroke-width="8"/>
+        <rect x="560" y="290" width="120" height="74" rx="3" fill="#f6dc6b"/>
+        <line x1="560" y1="327" x2="680" y2="327"/>
+        <circle cx="620" cy="309" r="4" fill="#1d1c1a"/><circle cx="620" cy="346" r="4" fill="#1d1c1a"/>
+
+        <!-- monitor -> AI & systems projects -->
+        <g class="hot" data-id="aistack" data-label="AI &amp; systems ↗">
+          <path d="M385 240 L375 268 L425 268 L415 240Z" fill="#b9c6f5"/>
+          <rect x="300" y="110" width="200" height="135" rx="10" fill="#1d1c1a"/>
+          <rect x="312" y="121" width="176" height="113" rx="4" fill="#0e2a1a" stroke-width="2"/>
+          <g stroke="none">
+            <rect x="326" y="131" width="58" height="6" rx="3" fill="#2b5c3f"/>
+            <rect x="326" y="141" width="32" height="4" rx="2" fill="#2b5c3f"/>
+          </g>
+          <g stroke-width="1" fill="none"><line x1="348" y1="158" x2="400" y2="146" stroke="#8fe0a6"/><line x1="348" y1="158" x2="400" y2="170" stroke="#24503a"/><line x1="348" y1="158" x2="400" y2="194" stroke="#24503a"/><line x1="348" y1="158" x2="400" y2="218" stroke="#24503a"/><line x1="348" y1="182" x2="400" y2="146" stroke="#24503a"/><line x1="348" y1="182" x2="400" y2="170" stroke="#8fe0a6"/><line x1="348" y1="182" x2="400" y2="194" stroke="#24503a"/><line x1="348" y1="182" x2="400" y2="218" stroke="#24503a"/><line x1="348" y1="206" x2="400" y2="146" stroke="#24503a"/><line x1="348" y1="206" x2="400" y2="170" stroke="#24503a"/><line x1="348" y1="206" x2="400" y2="194" stroke="#24503a"/><line x1="348" y1="206" x2="400" y2="218" stroke="#24503a"/><line x1="400" y1="146" x2="452" y2="170" stroke="#24503a"/><line x1="400" y1="146" x2="452" y2="194" stroke="#24503a"/><line x1="400" y1="170" x2="452" y2="170" stroke="#8fe0a6"/><line x1="400" y1="170" x2="452" y2="194" stroke="#24503a"/><line x1="400" y1="194" x2="452" y2="170" stroke="#24503a"/><line x1="400" y1="194" x2="452" y2="194" stroke="#8fe0a6"/><line x1="400" y1="218" x2="452" y2="170" stroke="#24503a"/><line x1="400" y1="218" x2="452" y2="194" stroke="#24503a"/></g>
+          <g stroke="none"><circle cx="348" cy="158" r="5" fill="#b9c6f5"/><circle cx="348" cy="182" r="5" fill="#b9c6f5"/><circle cx="348" cy="206" r="5" fill="#b9c6f5"/><circle cx="400" cy="146" r="5" fill="#8fe0a6"/><circle cx="400" cy="170" r="5" fill="#8fe0a6"/><circle cx="400" cy="194" r="5" fill="#8fe0a6"/><circle cx="400" cy="218" r="5" fill="#8fe0a6"/><circle cx="452" cy="170" r="5" fill="#f6dc6b"/><circle cx="452" cy="194" r="5" fill="#f6dc6b"/></g>
+        </g>
+
+        <!-- cat on monitor -->
+        <g class="hot" data-id="cat" data-label="do not disturb" data-toast="shh… 😴">
+          <g class="cat-body">
+            <path d="M318 112 C318 88 350 78 392 80 C430 82 452 92 452 112 Z" fill="#fff"/>
+            <path d="M452 106 C480 104 488 92 478 82" fill="none"/>
+          </g>
+          <circle cx="330" cy="98" r="18" fill="#fff"/>
+          <path d="M316 88 L318 70 L330 82 M336 81 L346 68 L347 88" fill="#fff"/>
+          <path d="M322 99 q4 3 8 0 M334 99 q4 3 8 0" stroke-width="2" fill="none"/>
+          <path d="M318 105 l-10 -1 M318 108 l-9 3" stroke-width="1.5"/>
+          <ellipse cx="388" cy="96" rx="10" ry="5" fill="#f59fc9" stroke="none" opacity=".6"/>
+        </g>
+        <g class="zz" stroke="none"><text x="356" y="72">z</text><text x="366" y="62">z</text><text x="376" y="52">Z</text></g>
+
+        <!-- books -> the shelf -->
+        <g class="hot" data-id="shelf" data-label="What I'm reading ↗">
+          <rect x="215" y="205" width="22" height="63" fill="#e8443a"/>
+          <rect x="237" y="195" width="18" height="73" fill="#b9c6f5"/>
+          <rect x="255" y="212" width="20" height="56" fill="url(#dotsY)"/>
+          <rect x="275" y="200" width="16" height="68" transform="rotate(8 283 268)" fill="#8fe0a6"/>
+          <path d="M219 220 h14 M241 210 h10 M259 226 h12" stroke-width="2"/>
+        </g>
+
+        <!-- sticky notes -> hover only -->
+        <g class="hot" data-id="notes" data-label="The to-do pile" data-toast="top of the list: clean the data ✎">
+          <rect x="438" y="238" width="54" height="30" rx="2" fill="#f6dc6b" transform="rotate(-7 465 253)"/>
+          <rect x="444" y="240" width="54" height="28" rx="2" fill="#f59fc9" transform="rotate(4 471 254)"/>
+          <rect x="440" y="244" width="54" height="24" rx="2" fill="#b9c6f5"/>
+          <path d="M448 253 h32 M448 261 h20" stroke-width="2"/>
+        </g>
+
+        <!-- mug -> hover only -->
+        <g class="hot" data-id="mug" data-label="Always overly caffeinated" data-toast="refill number four today ☕">
+          <rect x="520" y="232" width="30" height="36" rx="4" fill="url(#dotsP)"/>
+          <path d="M550 240 q14 0 14 12 q0 12 -14 10" fill="none"/>
+          <path d="M528 222 q4 -8 0 -14 M540 222 q4 -8 0 -14" stroke-width="2" fill="none" opacity=".5"/>
+        </g>
+
+        <!-- clipboard -> how I work -->
+        <g class="hot" data-id="howiwork" data-label="How I work ↗">
+          <g transform="rotate(-8 610 230)">
+            <rect x="575" y="180" width="70" height="88" rx="5" fill="#e3a25c"/>
+            <rect x="583" y="192" width="54" height="70" fill="#fff" stroke-width="2"/>
+            <rect x="597" y="174" width="26" height="12" rx="3" fill="#1d1c1a"/>
+            <g stroke-width="2"><path d="M590 206 l4 4 l7 -8"/><line x1="606" y1="206" x2="630" y2="206"/>
+            <path d="M590 224 l4 4 l7 -8"/><line x1="606" y1="224" x2="626" y2="224"/>
+            <rect x="590" y="238" width="10" height="10" fill="none"/><line x1="606" y1="243" x2="630" y2="243"/></g>
+          </g>
+        </g>
+
+        <!-- easel -> things I got wrong -->
+        <g class="hot" data-id="oops" data-label="Things I got wrong ↗">
+          <path d="M790 256 L754 410 M790 256 L826 410 M790 256 L790 404" stroke-width="5"/>
+          <rect x="734" y="150" width="112" height="106" rx="4" fill="#fff"/>
+          <rect x="734" y="150" width="112" height="16" rx="2" fill="#b9c6f5"/>
+          <g stroke="none">
+            <rect x="750" y="206" width="16" height="34" fill="#f59fc9"/>
+            <rect x="772" y="188" width="16" height="52" fill="#f6dc6b"/>
+            <rect x="794" y="198" width="16" height="42" fill="#8fe0a6"/>
+            <rect x="816" y="176" width="16" height="64" fill="#e8443a"/>
+          </g>
+          <line x1="744" y1="240" x2="840" y2="240" stroke-width="2"/>
+          <polyline points="758,214 780,198 802,204 824,182" fill="none" stroke-width="2.5" stroke-dasharray="5 4"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="view" id="v-work">
+  <div class="bar">
+    <div class="filters" id="filters"></div>
+    <div class="toggle"><span id="tg-g" class="on">GALLERY</span><button class="sw" id="sw" aria-label="Toggle view"></button><span id="tg-c">CASE STUDIES</span></div>
+  </div>
+  <div id="workBody"></div>
+</section>
+
+<!-- CONTACT ME -->
+<section class="view" id="v-contact">
+  <div class="reach">
+    <div class="looking" id="looking"></div>
+    <div class="ticket" id="ticket"></div>
+  </div>
+</section>
+
+<footer id="foot"></footer>
+</div>
+
+<div class="modal" id="gmodal"><div class="gbox"><button class="x" id="gclose">✕</button><div class="ghead"><div class="meta" id="gmeta"></div><h2 id="gtitle"></h2><p id="gblurb"></p></div><div class="gbody" id="gbody"></div></div></div>
+<div class="modal" id="modal"><div class="mbox"><button class="x" id="close">✕</button><div class="mvis" id="mvis"></div><div class="mtext" id="mtext"></div></div></div>
+<button class="navarr" id="prev">‹</button><button class="navarr" id="next">›</button>
+
+<div class="pdfm" id="pdfm"><div class="pdfbox">
+  <div class="pb-top">
+    <b>Resume</b>
+    <span class="pb-act">
+      <a id="pdfOpen" href="#" target="_blank" rel="noopener">Open in new tab ↗</a>
+      <a id="pdfDl" href="#" download>Download ↓</a>
+      <button class="copy" id="pdfClose">CLOSE ✕</button>
+    </span>
+  </div>
+  <iframe id="pdfFrame" title="Resume"></iframe>
+  <div class="pb-note">If the preview stays blank, use “Open in new tab”.</div>
+</div></div>
+
+<div class="toast" id="toast">Copied</div>
+
+<script>
+/* ============================================================
+   EDIT EVERYTHING IN SECTIONS 1-8 — THAT IS YOUR WHOLE SITE.
+   Nothing below "END OF EDITABLE CONTENT" needs touching.
+   ============================================================ */
+
+/* ---------- 1. WHO YOU ARE ---------- */
+const ME={
+  name:'Gaurangi Tyagi',
+  tagline:'I answer product and business questions with <mark>SQL, Python and Power BI</mark> — starting from the question, not the dataset.',
+  email:'gaurangityagi@gmail.com',
+  phone:'+91-7055269503',                           // set to '' to hide this row
+  linkedin:'https://linkedin.com/in/gaurangityagi',
+  github:'https://github.com/Gaurangityagi',
+  resume:'Gaurangi-Tyagi-Resume.pdf',               // file sits next to index.html — opens in the built-in viewer
+  photo:'',                                         // e.g. 'me.jpg' — leave '' for the placeholder
+  photoCap:"hi, it's me",
+  location:'Delhi NCR',
+  footerNote:'made with SQL brain, Python hands'
+};
+
+/* ---------- 2. ABOUT ---------- */
+const BIO=[
+  "Hey, I'm Gaurangi.",
+  "I'm a <mark>data analyst</mark> and a Computer Science student at JIIT Noida. I work in SQL and Python, build dashboards in Power BI and Streamlit, and spend most of my time turning messy product data into something someone can actually act on.",
+  "Right now I'm <mark>looking for analyst roles and internships</mark>, and building projects that start from a real business question rather than a clean dataset."
+];
+
+/* the little terminal in the collage — any HTML works */
+const TERMINAL=`
+<span class="c">-- local_visibility.sql</span><br>
+<span class="k">SELECT</span> b.name,<br>
+&nbsp;&nbsp;<span class="n">COUNT</span>(r.id) <span class="k">AS</span> reviews,<br>
+&nbsp;&nbsp;<span class="n">ROUND</span>(<span class="n">AVG</span>(r.stars),1) <span class="k">AS</span> rating,<br>
+&nbsp;&nbsp;b.local_rank<br>
+<span class="k">FROM</span> businesses b<br>
+<span class="k">JOIN</span> reviews r <span class="k">ON</span> r.biz_id = b.id<br>
+<span class="k">GROUP BY</span> 1, 4<br>
+<span class="k">ORDER BY</span> b.local_rank;<br>
+<span class="s">-- 5x reviews, 4.1 stars... still rank #4</span>
+`;
+
+const EDU={school:'Jaypee Institute of Information Technology, Noida',degree:'Integrated M.Tech, Computer Science and Engineering',when:'2022 – 2027'};
+
+/* skills, grouped. add / remove groups freely */
+const SKILLS=[
+  ['Languages & databases',['SQL','Python','Pandas','PostgreSQL','BigQuery','SQLite']],
+  ['Analysis',['EDA','Funnel analysis','Cohort analysis','Trend analysis','A/B testing','Hypothesis testing','KPI design']],
+  ['Visualisation & sheets',['Power BI (DAX)','Tableau','Looker Studio','Streamlit','Excel','Google Sheets']],
+  ['Also use',['ChatGPT','Claude','Copilot','LLM text classification']]
+];
+const LEARNING=['Experiment design','dbt'];   // faded "learning ·" chips — edit or empty the list
+
+const EXPERIENCE=[
+  {role:'Professional Domain Expert — Data & AI Evaluation',org:'Mercor (Contract)',when:'Mar – May 2026',
+   points:['Flagged reasoning and factual errors in 100+ AI model responses on analytics tasks through structured reports.',
+           'Earned a performance bonus with a 100% task approval rate across all submissions.']},
+  {role:'Research Intern',org:'DRID Giant Project, JIIT',when:'May – Jul 2025',
+   points:['Ran EDA on behavioural datasets for differently-abled users to surface stress-response patterns and usability friction.',
+           'Turned findings into recommendations for non-technical stakeholders, driving design changes in the next iteration.']}
+];
+
+/* add `link:` to make a certificate clickable and verifiable */
+const CERTS=[
+  {name:'McKinsey Forward Program',org:'McKinsey & Company',when:'In progress'},
+  {name:'Data Analytics with Python — Elite, Top 1%',org:'IIT Roorkee (NPTEL)',when:'Apr 2026',
+   link:'https://drive.google.com/file/d/1faS7BHW5QLcUXuvhM2FEsOw8gyTbGV90/view?usp=sharing'},
+  {name:'SQL (Advanced)',org:'HackerRank',when:'Mar 2026',
+   link:'https://www.hackerrank.com/certificates/1945092dfc06'},
+  {name:'Meta Data Analyst Professional Certificate',org:'Meta',when:'Dec 2024',
+   link:'https://www.coursera.org/account/accomplishments/professional-cert/UUAOBCOSCKV2'},
+  {name:'Google The Big Code 2026 — qualifier, top 15,000',org:'Google',when:'May 2026'}
+];
+
+/* ---------- 3. CONTACT ME ---------- */
+const REACH={
+  status:'Open to analyst roles and internships.',
+  blurb:"I'm looking for work where the question comes before the dataset. Happy to talk if your team is hiring for any of these:",
+  roles:['Data Analyst','Product Analyst','Business Analyst','Analytics Intern'],
+  note:"I'm based in <mark>Delhi NCR</mark> and open to on-site, hybrid or remote. Email is the quickest way to reach me."
+};
+
+/* ---------- 4. PAGE HEADINGS ---------- */
+const HEADS={
+  about:['Gaurangi Tyagi',ME.tagline],
+  'side-quests':['Side Quests','<mark>The parts that do not fit on a resume</mark> — how I work, what I read, what I got wrong, and the systems I build on the side. Click anything on the desk.'],
+  work:['Analytics Projects','Dashboards, experiments and analyses — each one starts from a question someone would actually ask.<br><a class="cta" href="#contact">▣ LET\'S TALK DATA</a>'],
+  contact:['Contact Me','Hiring, collaborating, or want to argue about a metric definition? Say hi.']
+};
+
+/* ---------- 5. CATEGORIES FOR THE WORK FILTER ---------- */
+const CATS=[['all','All'],['dashboards','Dashboards'],['sql','SQL & Python'],['stats','Statistics'],['ml','ML'],['llm','LLM']];
+
+/* ---------- 6. THE PROJECTS (newest first) ----------
+   cat   : any keys from CATS above
+   vis   : which illustration to use (see section 8), or null
+   links : [label, url] pairs — '#' renders as a dead link, so fill them in
+------------------------------------------------------- */
+const PROJECTS=[
+ {id:'freight',title:'Freight Rate Prediction',kind:'Modelling · assessment',cat:['ml'],year:'Nov 2026',vis:'freight',
+  blurb:'Predict the posted rate for 12,000 freight loads in Nov–Dec 2025, trained only on loads from Jan–Oct. The hard part was time: rates drift, and the obvious signal leaked.',
+  points:['Two-stage model on log rate per mile — a linear time model for market trend and quarter-end ramp, then LightGBM on static features with a shrunken per-lane offset.',
+          'Dropped the quote signal after finding it leaked the target in some months and was noise in others.',
+          'Eight validation cities never appear in training, so the model leans on coordinates rather than city IDs.',
+          'Walk-forward validation: 1.51% MAPE (~$36 MAE) on clean labels, 3.86% across all rows.'],
+  stack:['Python','LightGBM','Pandas','pytest'],
+  links:[['GitHub','https://github.com/Gaurangityagi/freight_rate_prediction']]},
+
+ {id:'visibility',title:'Local Visibility Intelligence',kind:'SMB analytics dashboard',cat:['dashboards','sql'],year:'Aug 2026',vis:'visibility',
+  blurb:'A Streamlit dashboard over Google Business Profile, review and search-volume data, built to answer one question: why does the better-looking business rank lower?',
+  points:['Joined profile, review and search-volume data in SQLite and queried it with SQL.',
+          'Found a business with 5x more reviews and a higher rating (4.1 vs 3.7) still ranking below its rival.',
+          'Traced the gap to profile hygiene — no website and an 18% review response rate — not to review count.',
+          'Shipped it as a dashboard an owner could read without me in the room.'],
+  stack:['Python','SQL','SQLite','Pandas','Streamlit'],
+  links:[['GitHub','https://github.com/Gaurangityagi/local-visibility-intelligence']]},
+
+ {id:'ecommerce',title:'E-commerce Revenue Analytics',kind:'BigQuery → Power BI',cat:['dashboards','sql'],year:'Aug 2026',vis:'ecommerce',
+  blurb:'1M+ order items and 30,000+ customers in BigQuery, reduced to one question: how are customers distributed by value, and which segments actually drive revenue?',
+  points:['Queried the thelook_ecommerce public dataset in BigQuery — joins, CTEs and window functions across 8 tables.',
+          'Pareto analysis: the top 41% of customers drive 80% of revenue.',
+          'Cohort retention heatmap showed the steepest drop-off right after the first purchase month.',
+          'RFM segmentation split the base into four tiers, modelled in Power BI with DAX measures.'],
+  stack:['BigQuery','SQL','Power BI','DAX','Power Query'],
+  links:[['GitHub','https://github.com/Gaurangityagi/ecommerce-analytics-bigquery']]},
+
+ {id:'fintech',title:'Fintech App Review Analysis',kind:'Customer issue prioritisation',cat:['llm','sql'],year:'Jun 2026',vis:'fintech',
+  blurb:'PhonePe, Paytm and Google Pay reviews, classified by complaint theme and severity with LLM prompting instead of manual tagging — then ranked into a fix-this-first list.',
+  points:['Scraped Play Store reviews and classified theme and severity using AI-based prompting.',
+          'Validated the AI labels against a hand-labelled sample before trusting them in the analysis.',
+          'Scored each issue on customer impact, frequency gap and effort to get a weighted quick-win plan.'],
+  stack:['Python','LLM APIs','Google Play Scraper','Pandas','Streamlit'],
+  links:[['GitHub','https://github.com/Gaurangityagi/fintech-review-engine']]},
+
+ {id:'swiggy',title:'Dark Kitchen Opportunity Finder',kind:'Location strategy · geospatial',cat:['dashboards','sql'],year:'May 2026',vis:'swiggy',
+  blurb:'Where should the next dark kitchen open? Pulled live restaurant supply across Delhi NCR, scored it against demand, and ranked every area-cuisine pair by how underserved it is.',
+  points:['Queried the Swiggy MCP API across 20 NCR pin codes and loaded ~2,400 restaurants into PostgreSQL — cuisines, ratings and rating volumes.',
+          'Built a weighted supply score per area-cuisine pair, estimated demand from mean rating counts, and normalised the difference into a 0–100 gap score.',
+          'Ranked every pair into Gold / Silver / Bronze tiers — roughly 35–50 Gold opportunities surfaced.',
+          'Widest gap landed on Korean and Japanese cuisine in Greater Noida West.',
+          'Shipped as a Streamlit dashboard with a Folium opportunity map, so the answer is a place you can point at.'],
+  stack:['Python','PostgreSQL','Streamlit','Folium','Plotly'],
+  links:[['GitHub','https://github.com/Gaurangityagi/swiggy-dark-kitchen']]},
+ {id:'telecom',title:'Telecom Churn Prediction',kind:'Classification · retention',cat:['ml','stats'],year:'Mar 2026',vis:'telecom',
+  blurb:'26% of customers churn. The useful question is not how many, but which ones — early enough to do something about it.',
+  points:['7,043 customers and 21 features from the IBM Telco dataset, with EDA first to find the drivers.',
+          'Compared Logistic Regression (0.84 AUC), Random Forest (0.82) and XGBoost (0.86).',
+          'Tenure is the strongest predictor — most churn happens inside the first 12 months.',
+          'Month-to-month contracts churn roughly 3x more than annual ones.'],
+  stack:['Python','scikit-learn','XGBoost','Pandas','Seaborn'],
+  links:[['GitHub','https://github.com/Gaurangityagi/telecom-churn-prediction']]},
+
+ {id:'rfm',title:'Customer Segmentation & RFM',kind:'Power BI dashboard',cat:['dashboards','sql'],year:'Dec 2025',vis:'dashboards',
+  blurb:'Session-level e-commerce data scored on recency, frequency and monetary value, then cut into segments a marketing team can actually act on.',
+  points:['Cleaned sessions in pandas, then scored R, F and M 1–5 by quantile.',
+          'Segments: Champions, Loyal, Potential Loyalists, At Risk, Lost.',
+          'The headline: a high customer count is not a high revenue count — Champions and Loyal carry most of it.',
+          'Built out as a Power BI dashboard with DAX KPI measures per segment.'],
+  stack:['Python','Pandas','Power BI','DAX'],
+  links:[['GitHub','https://github.com/Gaurangityagi/Customer-segmentation-and-RFM-segmentation']]},
+ {id:'quickcommerce',title:'Quick-Commerce Delivery Insights',kind:'Ops analytics dashboard',cat:['dashboards'],year:'Dec 2025',vis:'quick',
+  blurb:'Order-level delivery data across quick-commerce platforms, asking what actually moves a rating: the SLA breach, or what happens after it.',
+  points:['Nearly half of orders breach the 30-minute SLA; evening hours (6–11 PM) carry the most delivery stress.',
+          'Delays and refund requests hurt ratings more than an SLA breach on its own.',
+          'Mined bigram complaint phrases from 1–2 star reviews to separate delays from item-accuracy issues.',
+          'Shipped as a Streamlit dashboard with platform filters and a downloadable executive summary.'],
+  stack:['Python','Pandas','Plotly','Streamlit','NLP'],
+  links:[['Live app','https://quickcommercedeliveryinsights.streamlit.app/'],
+         ['GitHub','https://github.com/Gaurangityagi/Quick_commerce_delivery_insights']]},
+
+ {id:'earnings',title:'Earnings Surprise Event Study',kind:'Hypothesis testing · NSE',cat:['stats','sql'],year:'Dec 2025',vis:'earnings',
+  blurb:'Do NSE stocks that beat EPS estimates by 10%+ actually outperform afterwards? An event study across 180+ events says yes — and the misses get punished harder.',
+  points:['Measured 30-day abnormal returns against the Nifty 500 benchmark.',
+          'Beats: +2.1% abnormal return (p < 0.05). Misses: -2.76% (p = 0.01).',
+          'Built the whole pipeline — pull, align event windows, test, chart — in Python.'],
+  stack:['Python','Pandas','SciPy','yfinance','Streamlit'],
+  links:[['GitHub','https://github.com/Gaurangityagi/stock-earning-surprise-tracker']]}
+
+ /* ↓ add new projects here — copy any block above and change the fields.
+    Spare illustrations ready to use: vis:'scatter' or vis:'dashboards', or vis:null. */
+];
+
+/* ---------- 7. THE DESK SCENE (side quests) ----------
+   Keys must match data-id in the SVG above:
+   sqlpractice · aistack · shelf · howiwork · oops · notes · mug · cat
+   An entry with `group:[...]` opens a gallery of projects instead of one project.
+------------------------------------------------------- */
+const SIDE={
+ aistack:{title:'AI & Systems',kind:'The engineering half',year:'2025 – 2026',
+   blurb:"Not analyst work — this is the CS-student half of me. Backend systems, LLM infrastructure and a couple of small apps, built to understand how the layer underneath actually behaves.",
+   group:[
+    {title:'AI Gateway Autopilot',kind:'LLM cost infrastructure',year:'2026',vis:'gateway',
+     blurb:'A semantic cache and a tiered router sitting in front of the LLM, so a repeated question never costs full price twice.',
+     points:['Every prompt is embedded with all-mpnet-base-v2 and looked up by cosine similarity in a Redis vector cache.',
+             'Similarity above 90% returns straight from cache; 80–90% is offered back to the user as a suggestion.',
+             'Misses go to a rule-based classifier that tiers the prompt and routes simple work to gpt-4.1-nano, hard work to GPT-4o.',
+             'Across a 472-query benchmark on live Azure endpoints: 71.8% deflected, cost down 83.9% ($7.07 → $1.14).',
+             'Cached answers come back in ~985 ms against ~9,645 ms raw — roughly a 10x speedup.',
+             'Async background jobs write a SQLite audit trail, backfill the cache and sample responses for LLM-as-judge checks.'],
+     stack:['Python','FastAPI','Redis','SentenceTransformers','Azure OpenAI','SQLite'],
+     links:[['GitHub','https://github.com/Gaurangityagi/AI_gateway']]},
+    {title:'Distributed Task Queue',kind:'Backend systems',year:'2026',vis:'queue',
+     blurb:'A producer–consumer system for asynchronous work, built to survive its own failures rather than just run the happy path.',
+     points:['FastAPI accepts the task, stores metadata in a Redis hash and pushes the id onto a pending list.',
+             'A BLPOP consumer pulls ids and dispatches them to Celery workers.',
+             'Failures are classified: transient ones get rescheduled with backoff, permanent ones go to a dead-letter queue.',
+             'A circuit breaker stops the system hammering a dependency that is already down.',
+             'Clients watch state change live over server-sent events.',
+             'Whole thing runs on docker-compose — API, workers, beat and Redis.'],
+     stack:['Python','FastAPI','Celery','Redis','Docker'],
+     links:[['GitHub','https://github.com/Gaurangityagi/Distributed_task_queue_system']]},
+    {title:'Failure Forensics',kind:'Observability · tracing',year:'2026',vis:'tracer',
+     blurb:'When a pipeline fails at 3am, the question is which stage and why. This instruments the pipeline so the logs answer that themselves.',
+     points:['A custom context-manager tracer wraps each stage and emits structured JSON telemetry — duration, status, error.',
+             'A Streamlit dashboard reads those logs back and surfaces KPIs plus the failing spans.',
+             'GitHub Actions runs Ruff and pytest on every push and pull request, so broken code never merges.',
+             'The dashboard redeploys itself from main on Streamlit Community Cloud.'],
+     stack:['Python','Streamlit','pytest','Ruff','GitHub Actions'],
+     links:[['GitHub','https://github.com/Gaurangityagi/failure_forensics']]},
+    {title:'AskData',kind:'RAG over your own CSV',year:'2025',vis:'askdata',
+     blurb:'Upload a spreadsheet and ask it questions in plain English, instead of writing the filter yourself.',
+     points:['Retrieval pulls only the rows relevant to the question, so the model answers from your data rather than from memory.',
+             'Keeps the model grounded on a file it has never seen — the point was to stop it inventing numbers.',
+             'Built as the small version of a question I keep meeting at work: can a non-analyst get an answer without waiting on one?'],
+     stack:['Python','RAG','LLM','Streamlit'],
+     links:[['Live app','https://ask-data-gamma.vercel.app'],['GitHub','https://github.com/Gaurangityagi/AskData']]},
+    {title:'WhereShouldWe',kind:'LLM matching · trip planner',year:'2026',vis:'trip',
+     blurb:'Two people each fill in their half. It finds where their travel personalities actually overlap, then builds a trip from the overlap rather than from one person winning.',
+     points:['Takes two sets of preferences instead of the usual one — the interesting part is the disagreement, not the input.',
+             'The model reconciles both profiles into an itinerary both people would genuinely choose.',
+             'A weekend build, and the smallest thing here — kept because the framing is the idea.'],
+     stack:['Python','LLM','Streamlit'],
+     links:[['GitHub','https://github.com/Gaurangityagi/WhereShouldWe']]}
+   ]},
+ howiwork:{title:'How I Work',kind:'Process · the short version',year:'Ongoing',vis:null,
+   blurb:'Most analysis goes wrong before a single query runs. This is the checklist I actually follow, in order.',
+   points:['Start from the question someone would genuinely ask out loud — not from whichever dataset happens to be clean.',
+           'Check the grain first. One row is what, exactly? Half of all bad numbers come from answering that wrong.',
+           'Write the metric definition down before pulling it. If I cannot write it in one sentence, I do not understand it yet.',
+           'Sanity-check against a number the business already trusts. If my total disagrees with theirs, I am wrong until proven otherwise.',
+           'If a feature looks too predictive, assume leakage. On the freight model that instinct is what caught the quote signal.',
+           'Write the finding as a sentence first, then build the chart that proves it. The chart is the evidence, not the point.',
+           'Say what I am not sure about. A caveat stated up front is credibility; one discovered later is not.'],
+   stack:['SQL','Python','A lot of re-reading'],links:[]},
+ oops:{title:'Things I Got Wrong',kind:'Lessons, logged',year:'Ongoing',vis:null,
+   blurb:'A running list of the ones that cost me a rebuild. Keeping it public is the cheapest way to make sure I only pay once.',
+   points:['Freight model — an early version scored beautifully because a quote signal was leaking the target. Dropped it, watched the error jump, and trusted the number for the first time.',
+           'Quick-commerce — I assumed the 30-minute SLA breach was the story. It was not: delays paired with refunds moved ratings far more than breaches alone.',
+           'RFM segmentation — I ranked segments by customer count before realising count and revenue point in different directions. Champions are small and carry most of it.',
+           'Early dashboards — built the chart first and looked for the message afterwards. Now the sentence comes first or the chart does not get built.'],
+   stack:['Hindsight'],links:[]},
+ /* ↓ swap these for what you actually read — this one is mine to fill in, not mine to guess */
+ shelf:{title:'Shelf',kind:'Reading · not coursework',year:'Ongoing',vis:null,
+   blurb:'What I read when I am not in a notebook. Mostly about how to think about numbers rather than how to compute them.',
+   points:['Storytelling with Data — Cole Nussbaumer Knaflic. The reason I write the finding before the chart.',
+           'Trustworthy Online Controlled Experiments — Kohavi, Tang, Xu. Where most of what I know about experiment design came from.',
+           'How to Lie with Statistics — Darrell Huff. Short, old, and still the best check on my own charts.',
+           'Benn Stancil and the dbt blog, for how analytics actually gets practised rather than taught.'],
+   stack:['Reading','Note-taking'],links:[]},
+ sqlpractice:{title:'SQL Deep Dives',kind:'Pure SQL',year:'Dec 2025 · ongoing',vis:null,
+   blurb:'Where I go to write SQL for its own sake — no dashboard at the end, just the query.',
+   points:['Global HR & geography analytics on the Oracle HR schema: seven tables, multi-table joins, aggregations and window functions.',
+           'Questions like employee concentration by region, salary patterns across jobs and departments, management span, and career movement through job history.',
+           'SQL (Advanced) certificate on HackerRank — verified link below.'],
+   stack:['SQL','Window functions','Oracle HR schema'],
+   links:[['GitHub','https://github.com/Gaurangityagi/Global-HR-Geography-Analytics-Oracle-HR-Schema'],
+          ['HackerRank SQL (Advanced)','https://www.hackerrank.com/certificates/1945092dfc06']]},
+ cat:null   /* the cat is asleep. leave it. */
+};
+
+/* ---------- 8. ILLUSTRATIONS (keyed by the `vis` field above) ----------
+   Plain inline SVG. Safe to leave alone, or recolour with the palette at the top.
+------------------------------------------------------------------------ */
+const V={
+askdata:`<div class="v" style="background:#101a14"><svg viewBox="0 0 320 220" font-family="JetBrains Mono" font-size="7.5"><text x="26" y="26" fill="#8fe0a6">sales_2026.csv  ·  18,402 rows</text><rect x="26" y="40" width="164" height="11" rx="1" fill="#2b5c3f"/><rect x="26" y="58" width="120" height="9" rx="1" fill="#1e3a2a" opacity=".85"/><rect x="150" y="58" width="40" height="9" rx="1" fill="#1e3a2a" opacity=".55"/><rect x="26" y="71" width="120" height="9" rx="1" fill="#1e3a2a" opacity=".85"/><rect x="150" y="71" width="40" height="9" rx="1" fill="#1e3a2a" opacity=".55"/><rect x="26" y="84" width="120" height="9" rx="1" fill="#8fe0a6" opacity="1"/><rect x="150" y="84" width="40" height="9" rx="1" fill="#8fe0a6" opacity="1"/><rect x="26" y="97" width="120" height="9" rx="1" fill="#1e3a2a" opacity=".85"/><rect x="150" y="97" width="40" height="9" rx="1" fill="#1e3a2a" opacity=".55"/><rect x="26" y="110" width="120" height="9" rx="1" fill="#1e3a2a" opacity=".85"/><rect x="150" y="110" width="40" height="9" rx="1" fill="#1e3a2a" opacity=".55"/><rect x="26" y="123" width="120" height="9" rx="1" fill="#8fe0a6" opacity="1"/><rect x="150" y="123" width="40" height="9" rx="1" fill="#8fe0a6" opacity="1"/><rect x="26" y="136" width="120" height="9" rx="1" fill="#8fe0a6" opacity="1"/><rect x="150" y="136" width="40" height="9" rx="1" fill="#8fe0a6" opacity="1"/><rect x="26" y="149" width="120" height="9" rx="1" fill="#1e3a2a" opacity=".85"/><rect x="150" y="149" width="40" height="9" rx="1" fill="#1e3a2a" opacity=".55"/><rect x="26" y="162" width="120" height="9" rx="1" fill="#1e3a2a" opacity=".85"/><rect x="150" y="162" width="40" height="9" rx="1" fill="#1e3a2a" opacity=".55"/><g stroke="#8fe0a6" stroke-width="1.2" fill="none"><path d="M196 110 h22 M212 104 l6 6 l-6 6"/></g><rect x="224" y="60" width="70" height="100" rx="3" fill="#16281e" stroke="#2b5c3f" stroke-width="1"/><text x="232" y="78" fill="#5f7794">retrieved</text><text x="232" y="92" fill="#8fe0a6">3 rows</text><text x="232" y="116" fill="#5f7794">answer</text><rect x="232" y="124" width="54" height="4" rx="2" fill="#f6dc6b"/><rect x="232" y="132" width="44" height="4" rx="2" fill="#f6dc6b" opacity=".7"/><rect x="232" y="140" width="50" height="4" rx="2" fill="#f6dc6b" opacity=".45"/><text x="26" y="196" fill="#5f7794">&gt; which region lost the most revenue in Q3?</text><line x1="26" y1="204" x2="294" y2="204" stroke="#1e3a2a"/></svg></div>`,
+trip:`<div class="v" style="background:#1a1426"><svg viewBox="0 0 320 220" font-family="JetBrains Mono" font-size="7.5"><text x="26" y="24" fill="#c9a7e8">two travellers · one itinerary</text><circle cx="124" cy="112" r="56" fill="#f59fc9" opacity=".34"/><circle cx="186" cy="112" r="56" fill="#b9c6f5" opacity=".34"/><text x="54" y="92" fill="#f59fc9">museums</text><text x="48" y="110" fill="#f59fc9">slow mornings</text><text x="62" y="128" fill="#f59fc9">cafes</text><text x="214" y="92" fill="#b9c6f5">hikes</text><text x="210" y="110" fill="#b9c6f5">street food</text><text x="210" y="128" fill="#b9c6f5">early starts</text><text x="140" y="106" fill="#fff">old</text><text x="134" y="120" fill="#fff">towns</text><g stroke="#f6dc6b" stroke-width="1.5" fill="none" stroke-dasharray="4 3"><path d="M40 192 C100 170 150 206 200 184 S270 170 288 188"/></g><g fill="#f6dc6b" stroke="none"><circle cx="40" cy="192" r="3.5"/><circle cx="160" cy="192" r="3.5"/><circle cx="288" cy="188" r="3.5"/></g><text x="26" y="212" fill="#6f6280">day 1 → day 2 → day 3</text></svg></div>`,
+swiggy:`<div class="v" style="background:#2b1a0d"><svg viewBox="0 0 320 220" font-family="JetBrains Mono" font-size="7.5"><text x="30" y="26" fill="#f6b23a">supply_gap_score = demand - weighted_supply</text><text x="30" y="42" fill="#8a7458">20 NCR pin codes  ·  ~2,400 restaurants</text><rect x="30" y="56" width="48" height="26" rx="3" fill="#f6b23a" opacity="1"/><rect x="86" y="56" width="48" height="26" rx="3" fill="#b9bdc6" opacity=".75"/><rect x="142" y="56" width="48" height="26" rx="3" fill="#8c6a2f" opacity=".5"/><rect x="198" y="56" width="48" height="26" rx="3" fill="#b9bdc6" opacity=".75"/><rect x="254" y="56" width="48" height="26" rx="3" fill="#f6b23a" opacity="1"/><rect x="30" y="90" width="48" height="26" rx="3" fill="#8c6a2f" opacity=".5"/><rect x="86" y="90" width="48" height="26" rx="3" fill="#f6b23a" opacity="1"/><rect x="142" y="90" width="48" height="26" rx="3" fill="#b9bdc6" opacity=".75"/><rect x="198" y="90" width="48" height="26" rx="3" fill="#f6b23a" opacity="1"/><rect x="254" y="90" width="48" height="26" rx="3" fill="#b9bdc6" opacity=".75"/><rect x="30" y="124" width="48" height="26" rx="3" fill="#b9bdc6" opacity=".75"/><rect x="86" y="124" width="48" height="26" rx="3" fill="#8c6a2f" opacity=".5"/><rect x="142" y="124" width="48" height="26" rx="3" fill="#f6b23a" opacity="1"/><rect x="198" y="124" width="48" height="26" rx="3" fill="#8c6a2f" opacity=".5"/><rect x="254" y="124" width="48" height="26" rx="3" fill="#b9bdc6" opacity=".75"/><rect x="30" y="158" width="48" height="26" rx="3" fill="#f6b23a" opacity="1"/><rect x="86" y="158" width="48" height="26" rx="3" fill="#b9bdc6" opacity=".75"/><rect x="142" y="158" width="48" height="26" rx="3" fill="#b9bdc6" opacity=".75"/><rect x="198" y="158" width="48" height="26" rx="3" fill="#8c6a2f" opacity=".5"/><rect x="254" y="158" width="48" height="26" rx="3" fill="#f6b23a" opacity="1"/><g stroke="#2b1a0d" stroke-width="1.5" fill="none"><rect x="142" y="90" width="48" height="26" rx="3" stroke="#fff"/></g><text x="30" y="204" fill="#f6b23a">■ GOLD &gt;70</text><text x="104" y="204" fill="#b9bdc6">■ SILVER</text><text x="168" y="204" fill="#8c6a2f">■ BRONZE</text><text x="30" y="190" fill="#fff">widest gap → Greater Noida West · Korean</text></svg></div>`,
+gateway:`<div class="v" style="background:#0d1b2a"><svg viewBox="0 0 320 220" font-family="JetBrains Mono" font-size="7.5"><text x="26" y="22" fill="#8fe0a6">472 queries routed through the gateway</text><text x="26" y="48" fill="#5f7794">all GPT-4o</text><rect x="26" y="54" width="268" height="18" fill="#33465c"/><text x="34" y="67" fill="#cfe0f0">$7.07</text><text x="26" y="92" fill="#5f7794">with cache + router</text><rect x="26" y="98" width="43" height="18" fill="#8fe0a6"/><text x="76" y="111" fill="#8fe0a6">$1.14  →  83.9% saved</text><line x1="26" y1="134" x2="294" y2="134" stroke="#1c2d40" stroke-width="1"/><text x="26" y="154" fill="#5f7794">cache deflection</text><rect x="26" y="160" width="164" height="14" fill="#f6dc6b"/><rect x="190" y="160" width="28" height="14" fill="#c9a227"/><rect x="218" y="160" width="76" height="14" fill="#33465c"/><text x="26" y="190" fill="#f6dc6b">61.2% hit</text><text x="104" y="190" fill="#c9a227">10.6% near</text><text x="196" y="190" fill="#5f7794">28.2% to a model</text><text x="26" y="208" fill="#8fe0a6">985 ms cached  vs  9,645 ms raw</text></svg></div>`,
+queue:`<div class="v" style="background:#101820"><svg viewBox="0 0 320 220" font-family="JetBrains Mono" font-size="7"><text x="22" y="22" fill="#8fe0a6">task lifecycle</text><g stroke-width="1.5" fill="none" stroke="#33465c"><rect x="22" y="40" width="62" height="24" rx="3"/><rect x="110" y="40" width="62" height="24" rx="3" stroke="#8fe0a6"/><rect x="198" y="40" width="74" height="24" rx="3" stroke="#8fe0a6"/><rect x="110" y="96" width="62" height="24" rx="3" stroke="#e8443a"/><rect x="198" y="96" width="74" height="24" rx="3" stroke="#f6dc6b"/><rect x="110" y="152" width="62" height="24" rx="3" stroke="#e8443a"/><path d="M84 52 h20 M172 52 h20 M141 64 v26 M172 108 h20"/><path d="M235 96 v-20 h-50" stroke="#f6dc6b"/><path d="M141 120 v26" stroke="#e8443a"/></g><g fill="#cfe0f0"><text x="34" y="56">PENDING</text><text x="124" y="56">ACTIVE</text><text x="206" y="56">COMPLETED</text><text x="126" y="112">FAILED</text><text x="208" y="112">SCHEDULED</text><text x="138" y="168">DLQ</text></g><text x="198" y="86" fill="#f6dc6b">retry w/ backoff</text><line x1="22" y1="190" x2="294" y2="190" stroke="#1c2d40"/><text x="22" y="208" fill="#5f7794">FastAPI · Celery · Redis · circuit breaker · SSE</text></svg></div>`,
+tracer:`<div class="v" style="background:#140f1a"><svg viewBox="0 0 320 220" font-family="JetBrains Mono" font-size="7"><text x="26" y="24" fill="#c9a7e8">trace 4f2a · pipeline run</text><rect x="26" y="58" width="96" height="14" rx="2" fill="#8fe0a6"/><text x="26" y="54" fill="#9d8fae">ingest</text><rect x="122" y="84" width="64" height="14" rx="2" fill="#8fe0a6"/><text x="26" y="80" fill="#9d8fae">parse</text><rect x="186" y="110" width="70" height="14" rx="2" fill="#f6dc6b"/><text x="26" y="106" fill="#9d8fae">enrich</text><rect x="256" y="136" width="38" height="14" rx="2" fill="#e8443a"/><text x="26" y="132" fill="#9d8fae">load</text><text x="256" y="152" fill="#e8443a">✕ TimeoutError</text><line x1="26" y1="172" x2="294" y2="172" stroke="#2a2135"/><text x="26" y="190" fill="#6f6280">{"stage":"load","ok":false,"ms":38,</text><text x="26" y="204" fill="#6f6280"> "err":"TimeoutError"}</text></svg></div>`,
+freight:`<div class="v" style="background:#0d1b2a"><svg viewBox="0 0 320 220" font-family="JetBrains Mono" font-size="7.5">
+<text x="22" y="20" fill="#8fe0a6">posted_rate ~ lane + distance + week</text>
+<g fill="none" stroke-width="2">
+<line x1="26" y1="178" x2="300" y2="178" stroke="#33465c"/><line x1="26" y1="34" x2="26" y2="178" stroke="#33465c"/>
+<line x1="26" y1="70" x2="300" y2="70" stroke="#1c2d40"/><line x1="26" y1="106" x2="300" y2="106" stroke="#1c2d40"/><line x1="26" y1="142" x2="300" y2="142" stroke="#1c2d40"/>
+<path d="M26 150 L62 136 L98 142 L134 112 L170 120 L206 92 L242 100 L300 72" stroke="#f6dc6b"/>
+<path d="M26 154 L62 132 L98 146 L134 108 L170 124 L206 88 L242 104 L300 68" stroke="#8fe0a6" stroke-dasharray="5 5"/>
+</g>
+<rect x="26" y="188" width="10" height="3" fill="#f6dc6b"/><text x="40" y="192" fill="#cfd8e3" font-size="7">actual</text>
+<rect x="78" y="188" width="10" height="3" fill="#8fe0a6"/><text x="92" y="192" fill="#cfd8e3" font-size="7">predicted</text>
+<rect x="196" y="182" width="104" height="16" rx="8" fill="#8fe0a6"/>
+<text x="248" y="193" text-anchor="middle" fill="#0d1b2a" font-size="7.5">1.51% MAPE · ~$36 MAE</text></svg></div>`,
+
+ecommerce:`<div class="v" style="background:#efece6"><svg viewBox="0 0 320 220" font-family="JetBrains Mono" font-size="7.5">
+<text x="22" y="22" fill="#1d1c1a">revenue concentration · 1M+ order items</text>
+<line x1="24" y1="178" x2="300" y2="178" stroke="#1d1c1a" stroke-width="2"/>
+${[86,72,60,50,42,34,26,20,14,10].map((h,i)=>`<rect x="${26+i*27}" y="${178-h}" width="21" height="${h}" fill="${i<4?'#e8443a':'#cfccc6'}"/>`).join('')}
+<line x1="24" y1="82" x2="300" y2="82" stroke="#1d1c1a" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="272" y="78" fill="#1d1c1a" font-size="7">80%</text>
+<polyline points="36,152 63,130 90,112 117,98 144,86 171,76 198,69 225,64 252,60 279,58" fill="none" stroke="#1d1c1a" stroke-width="2"/>
+${[152,130,112,98,86,76,69,64,60,58].map((y,i)=>`<circle cx="${36+i*27}" cy="${y}" r="2.6" fill="#1d1c1a"/>`).join('')}
+<text x="22" y="200" fill="#1d1c1a">top 41% of customers → 80% of revenue</text>
+<text x="22" y="212" fill="#6b6862" font-size="7">cohort retention · RFM tiers · BigQuery → Power BI</text></svg></div>`,
+
+telecom:`<div class="v" style="background:#b9c6f5"><svg viewBox="0 0 320 220" font-family="JetBrains Mono" font-size="7.5">
+<text x="20" y="22" fill="#1d1c1a">who leaves, and when</text>
+<line x1="24" y1="152" x2="188" y2="152" stroke="#1d1c1a" stroke-width="2"/>
+<rect x="24" y="44" width="62" height="108" fill="#fff" opacity=".5"/>
+<line x1="86" y1="40" x2="86" y2="152" stroke="#e8443a" stroke-width="1.5" stroke-dasharray="4 4"/>
+<text x="26" y="38" fill="#e8443a" font-size="7">first 12 months</text>
+<polyline points="24,50 44,78 64,98 86,112 112,124 142,132 188,140" fill="none" stroke="#e8443a" stroke-width="2.5"/>
+<text x="24" y="166" fill="#1d1c1a" font-size="7">tenure →</text>
+<line x1="204" y1="152" x2="300" y2="152" stroke="#1d1c1a" stroke-width="2"/>
+<rect x="212" y="78" width="26" height="74" fill="#e8443a"/><rect x="262" y="128" width="26" height="24" fill="#1d1c1a"/>
+<text x="204" y="166" fill="#1d1c1a" font-size="6.5">month-to-month</text><text x="264" y="166" fill="#1d1c1a" font-size="6.5">annual</text>
+<text x="208" y="72" fill="#1d1c1a" font-size="6.5">~3x the churn</text>
+<rect x="20" y="180" width="132" height="17" rx="8" fill="#1d1c1a"/>
+<text x="86" y="192" text-anchor="middle" fill="#fff" font-size="7.5">XGBoost · AUC 0.86</text>
+<text x="160" y="192" fill="#1d1c1a" font-size="7">7,043 customers · 21 features</text></svg></div>`,
+
+quick:`<div class="v" style="background:#f6dc6b"><svg viewBox="0 0 320 220" font-family="JetBrains Mono" font-size="7.5">
+<text x="20" y="22" fill="#1d1c1a">delivery time distribution</text>
+<line x1="22" y1="170" x2="300" y2="170" stroke="#1d1c1a" stroke-width="2"/>
+${[8,16,28,44,62,78,70,58,46,36,26,18,12,8].map((h,i)=>`<rect x="${24+i*19}" y="${170-h}" width="15" height="${h}" fill="${i>=6?'#e8443a':'#1d1c1a'}"/>`).join('')}
+<line x1="138" y1="40" x2="138" y2="176" stroke="#1d1c1a" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="142" y="38" fill="#1d1c1a" font-size="7">30-min SLA</text>
+<text x="20" y="188" fill="#1d1c1a">nearly half of orders land on the wrong side of it</text>
+<text x="20" y="202" fill="#6b1f1a" font-size="7">evenings 6–11 PM carry the most stress · delays + refunds hit ratings hardest</text></svg></div>`,
+
+visibility:`<div class="v" style="background:#0d1b2a"><svg viewBox="0 0 320 220" font-family="JetBrains Mono" font-size="7.5">
+<text x="20" y="22" fill="#f6dc6b">$ why does the better profile rank lower?</text>
+<text x="20" y="46" fill="#8fe0a6">BUSINESS A</text>
+<rect x="20" y="52" width="186" height="13" rx="2" fill="#8fe0a6"/>
+<text x="212" y="62" fill="#cfd8e3">5x reviews · 4.1★</text>
+<text x="20" y="84" fill="#7e8fa3">BUSINESS B</text>
+<rect x="20" y="90" width="38" height="13" rx="2" fill="#33465c"/>
+<text x="64" y="100" fill="#cfd8e3">1x reviews · 3.7★</text>
+<line x1="20" y1="116" x2="300" y2="116" stroke="#1c2d40"/>
+<text x="20" y="136" fill="#7e8fa3">LOCAL RANK</text>
+<text x="96" y="136" fill="#e8443a">A · #4</text>
+<text x="150" y="136" fill="#8fe0a6">B · #1</text>
+<text x="20" y="160" fill="#7e8fa3">WEBSITE</text><text x="96" y="160" fill="#e8443a">none</text>
+<text x="20" y="180" fill="#7e8fa3">REVIEW REPLIES</text><text x="112" y="180" fill="#e8443a">18%</text>
+<rect x="150" y="173" width="90" height="8" rx="4" fill="#33465c"/>
+<rect x="150" y="173" width="16" height="8" rx="4" fill="#e8443a"/>
+<text x="20" y="204" fill="#f6dc6b">→ it was never the review count</text></svg></div>`,
+
+fintech:`<div class="v" style="background:#f59fc9"><svg viewBox="0 0 320 220" font-family="JetBrains Mono" font-size="7">
+<g stroke="#1d1c1a" stroke-width="2">
+<rect x="16" y="22" width="196" height="32" rx="5" fill="#fff"/>
+<rect x="16" y="60" width="196" height="32" rx="5" fill="#fff"/>
+<rect x="16" y="98" width="196" height="32" rx="5" fill="#fff"/>
+<rect x="16" y="136" width="196" height="32" rx="5" fill="#fff"/>
+<rect x="156" y="30" width="46" height="13" rx="6" fill="#e8443a"/>
+<rect x="156" y="68" width="46" height="13" rx="6" fill="#e8443a"/>
+<rect x="156" y="106" width="46" height="13" rx="6" fill="#f6dc6b"/>
+<rect x="156" y="144" width="46" height="13" rx="6" fill="#8fe0a6"/>
+</g>
+<g fill="#1d1c1a"><text x="26" y="38">money debited, not credited</text><text x="26" y="50" fill="#6b6862">1 star · 412 reviews</text>
+<text x="26" y="76">txn failed at checkout</text><text x="26" y="88" fill="#6b6862">1 star · 287 reviews</text>
+<text x="26" y="114">KYC stuck in review</text><text x="26" y="126" fill="#6b6862">2 stars · 164 reviews</text>
+<text x="26" y="152">app slow to open</text><text x="26" y="164" fill="#6b6862">3 stars · 98 reviews</text></g>
+<g font-size="6.5" fill="#fff"><text x="165" y="39">SEV 1</text><text x="165" y="77">SEV 1</text></g>
+<g font-size="6.5" fill="#1d1c1a"><text x="165" y="115">SEV 2</text><text x="165" y="153">SEV 3</text></g>
+<g font-family="Instrument Serif" font-style="italic" font-size="15" fill="#1d1c1a"><text x="226" y="40">labelled</text><text x="226" y="58">by LLM,</text><text x="226" y="76">checked</text><text x="226" y="94">by hand</text></g>
+<rect x="220" y="110" width="86" height="58" rx="4" fill="#1d1c1a"/>
+<g font-size="6.5" fill="#fff"><text x="228" y="125">QUICK WINS</text><text x="228" y="139" fill="#8fe0a6">1 · failed txn</text><text x="228" y="151" fill="#f6dc6b">2 · refund SLA</text><text x="228" y="163" fill="#f59fc9">3 · KYC queue</text></g>
+<text x="16" y="190" font-size="7" fill="#1d1c1a">impact × frequency gap ÷ effort → ranked action plan</text></svg></div>`,
+
+earnings:`<div class="v" style="background:#2a1438"><svg viewBox="0 0 320 220" font-family="JetBrains Mono" font-size="8">
+<text x="20" y="22" fill="#f6dc6b">abnormal return vs Nifty 500 · 180+ events</text>
+<line x1="34" y1="36" x2="34" y2="178" stroke="#5b3d73" stroke-width="1.5"/>
+<line x1="34" y1="118" x2="300" y2="118" stroke="#5b3d73" stroke-width="1.5"/>
+<line x1="90" y1="36" x2="90" y2="178" stroke="#c9b7e0" stroke-width="1.5" stroke-dasharray="4 4"/>
+<text x="76" y="192" fill="#c9b7e0" font-size="7">day 0</text>
+<text x="274" y="192" fill="#c9b7e0" font-size="7">+30</text>
+<polyline points="34,118 62,116 90,112 120,96 152,88 186,80 220,74 254,68 292,62" fill="none" stroke="#8fe0a6" stroke-width="2.5"/>
+<polyline points="34,118 62,120 90,124 120,140 152,146 186,152 220,156 254,160 292,166" fill="none" stroke="#e8443a" stroke-width="2.5"/>
+<circle cx="292" cy="62" r="4" fill="#8fe0a6"/><circle cx="292" cy="166" r="4" fill="#e8443a"/>
+<text x="150" y="52" fill="#8fe0a6" font-size="7.5">beats  +2.1%   p &lt; 0.05</text>
+<text x="150" y="182" fill="#e8443a" font-size="7.5">misses  -2.76%   p = 0.01</text>
+<text x="40" y="114" fill="#7a6890" font-size="7">0%</text></svg></div>`,
+
+/* spare, unused — point a new project at vis:'scatter' to use it */
+scatter:`<div class="v" style="background:#8fe0a6"><svg viewBox="0 0 320 220" font-family="JetBrains Mono" font-size="7">
+<line x1="32" y1="36" x2="32" y2="180" stroke="#1d1c1a" stroke-width="2"/>
+<line x1="32" y1="180" x2="296" y2="180" stroke="#1d1c1a" stroke-width="2"/>
+${(()=>{let s='',k=11;const r=()=>(k=(k*9301+49297)%233280)/233280;
+for(let i=0;i<48;i++){const x=42+r()*240,y=48+r()*124;const hot=x>170&&y<104;
+s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${hot?4.5:3.2}" fill="${hot?'#e8443a':'#1d1c1a'}" opacity="${hot?1:.45}"/>`}return s})()}
+<ellipse cx="228" cy="78" rx="62" ry="34" fill="none" stroke="#1d1c1a" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="196" y="34" fill="#1d1c1a">the cluster</text>
+<text x="42" y="198" fill="#1d1c1a">x →</text>
+<text x="16" y="116" fill="#1d1c1a" transform="rotate(-90 16 116)">y ↑</text></svg></div>`,
+
+dashboards:`<div class="v" style="background:#b9c6f5"><svg viewBox="0 0 320 220" font-family="JetBrains Mono" font-size="7">
+<g stroke="#1d1c1a" stroke-width="2" fill="#fff">
+<rect x="18" y="20" width="132" height="76" rx="4"/><rect x="158" y="20" width="144" height="76" rx="4"/>
+<rect x="18" y="104" width="284" height="96" rx="4"/></g>
+<g stroke="none">
+<rect x="32" y="52" width="16" height="32" fill="#8fe0a6"/><rect x="54" y="40" width="16" height="44" fill="#f6dc6b"/>
+<rect x="76" y="60" width="16" height="24" fill="#f59fc9"/><rect x="98" y="34" width="16" height="50" fill="#e8443a"/>
+<text x="32" y="36" fill="#1d1c1a">revenue by channel</text>
+<text x="170" y="36" fill="#1d1c1a">retention</text>
+<text x="32" y="122" fill="#1d1c1a">weekly active users</text></g>
+<polyline points="170,84 194,70 218,74 242,56 266,62 292,46" fill="none" stroke="#1d1c1a" stroke-width="2.5"/>
+<polyline points="32,178 70,164 108,170 146,148 184,154 222,132 260,138 294,118" fill="none" stroke="#e8443a" stroke-width="2.5"/>
+<line x1="32" y1="188" x2="294" y2="188" stroke="#1d1c1a" stroke-width="1.5"/></svg></div>`
+};
+
+/* ============================================================
+   END OF EDITABLE CONTENT
+   ============================================================ */
+
+/* ---------- background dots ---------- */
+const dotsEl=document.getElementById('dots');
+let seed=7;const rnd=()=>(seed=(seed*9301+49297)%233280)/233280;
+for(let i=0;i<46;i++){const d=document.createElement('i');d.style.left=(rnd()*100)+'%';d.style.top=(rnd()*100)+'%';d.dataset.z=(0.3+rnd()*1.2).toFixed(2);dotsEl.appendChild(d)}
+addEventListener('mousemove',e=>{const cx=e.clientX/innerWidth-.5,cy=e.clientY/innerHeight-.5;dotsEl.querySelectorAll('i').forEach(d=>{const z=d.dataset.z;d.style.transform=`translate(${cx*-14*z}px,${cy*-14*z}px)`})});
+
+/* scallop badge */
+(()=>{let q='';const n=14;for(let i=0;i<n;i++){const a0=i/n*Math.PI*2,a1=(i+.5)/n*Math.PI*2,a2=(i+1)/n*Math.PI*2;const P=(a,r)=>[(50+r*Math.cos(a)).toFixed(1),(50+r*Math.sin(a)).toFixed(1)];const s=P(a0,43),c=P(a1,54),e=P(a2,43);q+=(i?'':'M'+s.join(' '))+' Q'+c.join(' ')+' '+e.join(' ')}
+document.getElementById('scallop').setAttribute('d',q+'Z')})();
+
+/* ---------- about ---------- */
+document.getElementById('term').innerHTML=TERMINAL;
+document.getElementById('bio').innerHTML=BIO.map(p=>`<p>${p}</p>`).join('');
+document.getElementById('edu').innerHTML=`<small>Education · ${EDU.when}</small><b>${EDU.school}</b><br>${EDU.degree}`;
+if(ME.photo)document.getElementById('photo').innerHTML=`<img src="${ME.photo}" alt="${ME.name}">`;
+document.getElementById('photoCap').textContent=ME.photoCap;
+document.getElementById('aboutRight').innerHTML=
+ `<div><div class="kicker">TOOLKIT</div>${SKILLS.map(([g,items])=>`<div class="grp"><small>${g}</small><div class="chips">${items.map(s=>`<span class="chip">${s}</span>`).join('')}</div></div>`).join('')}${LEARNING.length?`<div class="grp"><div class="chips">${LEARNING.map(s=>`<span class="chip dim">learning · ${s}</span>`).join('')}</div></div>`:''}</div>`
++`<div class="exp"><div class="kicker">EXPERIENCE</div>${EXPERIENCE.map(e=>`<div class="item"><div class="when">${e.when}</div><b>${e.role}</b><br>${e.org}<ul>${e.points.map(p=>`<li>${p}</li>`).join('')}</ul></div>`).join('')}</div>`
++`<div class="certs"><div class="kicker">CERTIFICATIONS</div>${CERTS.map(c=>`<div class="c-row"><div>${c.link?`<a href="${c.link}" target="_blank" rel="noopener"><b>${c.name}</b> ↗</a>`:`<b>${c.name}</b>`}<br>${c.org}</div><span>${c.when}</span></div>`).join('')}</div>`;
+
+/* ---------- reach out ---------- */
+document.getElementById('looking').innerHTML=
+ `<div class="status"><span class="dot"></span><b>${REACH.status}</b></div>`
++`<p>${REACH.blurb}</p><div class="roles">${REACH.roles.map(r=>`<span>${r}</span>`).join('')}</div>`
++`<p style="margin-top:22px">${REACH.note}</p>`;
+const trow=(label,inner,btn='')=>`<div class="row"><div><small>${label}</small>${inner}</div>${btn}</div>`;
+const short=u=>u.replace(/^https?:\/\/(www\.)?/,'').replace(/\/$/,'');
+document.getElementById('ticket').innerHTML=
+ `<div class="top"><b>Let's talk</b></div>`
++trow('Email',`<span id="em">${ME.email}</span>`,'<button class="copy" id="copyEm">COPY</button>')
++(ME.phone?trow('Phone',`<span>${ME.phone}</span>`):'')
++trow('LinkedIn',`<a class="v2" id="li2" href="#">${short(ME.linkedin)} ↗</a>`)
++trow('GitHub',`<a class="v2" id="gh2" href="#">${short(ME.github)} ↗</a>`)
++trow('Resume','<a class="v2" id="cv" href="#">View PDF ↗</a>');
+document.getElementById('foot').innerHTML=`<span>© ${new Date().getFullYear()} ${ME.name}</span><span>${ME.footerNote}</span>`;
+
+/* links */
+[['lnk-gh','github'],['gh2','github'],['lnk-li','linkedin'],['li2','linkedin'],['cv','resume']].forEach(([id,k])=>{const a=document.getElementById(id);if(!a)return;a.href=ME[k]||'#';if(ME[k]&&ME[k]!=='#'){a.target='_blank';a.rel='noopener'}});
+
+/* ---------- resume viewer ---------- */
+const pdfm=document.getElementById('pdfm'),pdfFrame=document.getElementById('pdfFrame');
+function openPdf(e){
+  if(e)e.preventDefault();
+  if(!ME.resume||ME.resume==='#'){toast('Set ME.resume to your PDF');return}
+  pdfFrame.src=ME.resume;
+  document.getElementById('pdfOpen').href=ME.resume;
+  document.getElementById('pdfDl').href=ME.resume;
+  pdfm.classList.add('on');
+}
+function closePdf(){pdfm.classList.remove('on');pdfFrame.src='about:blank'}
+document.getElementById('pdfClose').onclick=closePdf;
+pdfm.onclick=e=>{if(e.target===pdfm)closePdf()};
+addEventListener('keydown',e=>{if(e.key==='Escape'&&pdfm.classList.contains('on'))closePdf()});
+document.getElementById('cv').addEventListener('click',openPdf);
+const toast=t=>{const el=document.getElementById('toast');el.textContent=t;el.classList.add('on');setTimeout(()=>el.classList.remove('on'),1600)};
+document.getElementById('copyEm').onclick=async()=>{try{await navigator.clipboard.writeText(ME.email);toast('Email copied')}catch(e){toast(ME.email)}};
+
+/* ---------- routing ---------- */
+const VIEWS=['about','side-quests','work','contact'];
+function route(){
+  const h=location.hash.slice(1);const v=VIEWS.includes(h)?h:'about';
+  document.querySelectorAll('.view').forEach(s=>s.classList.toggle('on',s.id==='v-'+v));
+  document.querySelectorAll('.stk').forEach(s=>s.classList.toggle('active',s.dataset.v===v));
+  const hd=HEADS[v];document.getElementById('head').innerHTML=hd?`<h1 class="title">${hd[0]}</h1><p class="sub">${hd[1]}</p>`:'';
+  scrollTo({top:0});
+}
+addEventListener('hashchange',route);
+
+/* ---------- work ---------- */
+let cat='all',mode='gallery',list=[],idx=0;
+function renderFilters(){document.getElementById('filters').innerHTML=CATS.map(([k,l],i)=>`${i?'<span class="sep">/</span>':''}<button class="${k===cat?'on':''}" data-c="${k}">${l}</button>`).join('');
+  document.querySelectorAll('#filters button').forEach(b=>b.onclick=()=>{cat=b.dataset.c;renderFilters();renderWork()})}
+function renderWork(){
+  list=PROJECTS.filter(p=>cat==='all'||p.cat.includes(cat));
+  const body=document.getElementById('workBody');
+  if(mode==='gallery'){
+    body.innerHTML=`<div class="gallery">${list.map((p,i)=>`<div class="card" data-i="${i}"><div class="vis">${V[p.vis]||''}</div><span class="yr">${p.year}</span><span class="cap">${p.title} ↗</span></div>`).join('')}</div>`;
+  }else{
+    body.innerHTML=`<div class="cases">${list.map((p,i)=>`<div class="row" data-i="${i}"><div><div class="num">/${String(i+1).padStart(3,'0')}</div><h3>${p.title}</h3><div class="kind">${p.kind}</div></div><div class="thumb">${V[p.vis]||''}</div><div class="go"><span>View</span><span class="ln"></span><span>Project</span><span class="circ">↗</span></div></div>`).join('')}<div style="border-top:1px solid var(--ink)"></div></div>`;
+  }
+  body.querySelectorAll('[data-i]').forEach(el=>el.onclick=()=>openP(list,+el.dataset.i));
+}
+document.getElementById('sw').onclick=()=>{mode=mode==='gallery'?'cases':'gallery';document.getElementById('sw').classList.toggle('cs',mode==='cases');document.getElementById('tg-g').classList.toggle('on',mode==='gallery');document.getElementById('tg-c').classList.toggle('on',mode==='cases');renderWork()};
+
+/* ---------- modal ---------- */
+const modal=document.getElementById('modal');let mlist=[];
+function fill(p){
+  document.getElementById('mvis').innerHTML=(p.vis&&V[p.vis])?V[p.vis]:`<div class="v" style="background:var(--peri);padding:24px"><span style="font-family:var(--serif);font-style:italic;font-size:48px;line-height:1.05;text-align:center">${p.title}</span></div>`;
+  document.getElementById('mtext').innerHTML=`<div class="meta">${p.kind} · ${p.year}</div><h2>${p.title}</h2><p>${p.blurb}</p><ul>${p.points.map(x=>`<li>${x}</li>`).join('')}</ul><div class="chips">${p.stack.map(s=>`<span class="chip">${s}</span>`).join('')}</div>${(p.links&&p.links.length)?`<div class="mlinks">${p.links.map(([l,h])=>`<a href="${h}" ${h!=='#'?'target="_blank" rel="noopener"':''}>${l} ↗</a>`).join('')}</div>`:''}`;
+}
+function openP(l,i){mlist=l;idx=i;fill(l[i]);modal.classList.add('on');document.querySelectorAll('.navarr').forEach(b=>b.classList.toggle('show',l.length>1))}
+function closeM(){modal.classList.remove('on');document.querySelectorAll('.navarr').forEach(b=>b.classList.remove('show'))}
+document.getElementById('close').onclick=closeM;
+modal.onclick=e=>{if(e.target===modal)closeM()};
+document.getElementById('prev').onclick=()=>{idx=(idx-1+mlist.length)%mlist.length;fill(mlist[idx])};
+document.getElementById('next').onclick=()=>{idx=(idx+1)%mlist.length;fill(mlist[idx])};
+addEventListener('keydown',e=>{if(!modal.classList.contains('on'))return;if(e.key==='Escape')closeM();if(e.key==='ArrowLeft')document.getElementById('prev').click();if(e.key==='ArrowRight')document.getElementById('next').click()});
+
+/* ---------- scene hotspots ---------- */
+const tip=document.getElementById('tip'),wrapEl=document.getElementById('sceneWrap');
+document.querySelectorAll('.hot').forEach(g=>{
+  g.addEventListener('mouseenter',()=>{const r=g.getBoundingClientRect(),w=wrapEl.getBoundingClientRect();tip.textContent=g.dataset.label;tip.style.left=(r.left+r.width/2-w.left)+'px';tip.style.top=(r.top-w.top)+'px';tip.classList.add('show')});
+  g.addEventListener('mouseleave',()=>tip.classList.remove('show'));
+  g.addEventListener('click',()=>{
+    const p=SIDE[g.dataset.id];
+    if(!p){toast(g.dataset.toast||'nothing here');return}
+    if(p.group&&p.group.length){openGroup(p);return}
+    openP([p],0);
+  });
+});
+
+/* ---------- group gallery (a side quest that holds several projects) ---------- */
+const gmodal=document.getElementById('gmodal');
+function openGroup(q){
+  document.getElementById('gmeta').textContent=q.kind+' · '+q.year;
+  document.getElementById('gtitle').textContent=q.title;
+  document.getElementById('gblurb').innerHTML=q.blurb;
+  document.getElementById('gbody').innerHTML=q.group.map((p,i)=>
+    '<div class="gcard" data-i="'+i+'">'
+    +'<div class="gthumb"><div class="vis">'+(V[p.vis]||'')+'</div></div>'
+    +'<div><div class="gk">'+p.kind+' · '+p.year+'</div><h3>'+p.title+'</h3>'
+    +'<p>'+p.blurb+'</p>'
+    +'<ul>'+p.points.slice(0,3).map(x=>'<li>'+x+'</li>').join('')+'</ul>'
+    +'<span class="gmore">Open project ↗</span></div></div>').join('');
+  document.getElementById('gbody').querySelectorAll('.gcard').forEach(el=>{
+    el.onclick=()=>openP(q.group,+el.dataset.i);
+  });
+  gmodal.classList.add('on');
+}
+function closeG(){gmodal.classList.remove('on')}
+document.getElementById('gclose').onclick=closeG;
+gmodal.onclick=e=>{if(e.target===gmodal)closeG()};
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.classList.contains('on')&&gmodal.classList.contains('on'))closeG()},true);
+
+renderFilters();renderWork();route();
+</script>
+</body>
+</html>
